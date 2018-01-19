@@ -65,9 +65,20 @@ dependencies: /Users/Costa/Documents/CG2017-2/CG_UFPel/sources/main.cpp \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtc/matrix_transform.hpp \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtc/../glm.hpp \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtc/matrix_transform.inl \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtx/transform2.hpp \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtx/../glm.hpp \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtx/../gtx/transform.hpp \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtx/transform.inl \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtx/transform2.inl \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtx/spline.hpp \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtx/../gtx/optimum_pow.hpp \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtx/optimum_pow.inl \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/external/glm-0.9.4.0/glm/gtx/spline.inl \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/include/shader.hpp \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/include/texture.hpp \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/include/controls.hpp \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/include/objloader.hpp \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/include/vboindexer.hpp \
-  /Users/Costa/Documents/CG2017-2/CG_UFPel/include/glerror.hpp
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/include/glerror.hpp \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/include/mesh.hpp \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/include/model.hpp

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "80FBC61ACCF74CBF9C9DD48F"
+               BlueprintIdentifier = "B68236BC6F07455588EAA8C8"
                BuildableName = "libANTTWEAKBAR_116_OGLCORE_GLFW.a"
                BlueprintName = "ANTTWEAKBAR_116_OGLCORE_GLFW"
                ReferencedContainer = "container:CG_UFPel.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "80FBC61ACCF74CBF9C9DD48F"
+            BlueprintIdentifier = "B68236BC6F07455588EAA8C8"
             BuildableName = "libANTTWEAKBAR_116_OGLCORE_GLFW.a"
             BlueprintName = "ANTTWEAKBAR_116_OGLCORE_GLFW"
             ReferencedContainer = "container:CG_UFPel.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "80FBC61ACCF74CBF9C9DD48F"
+            BlueprintIdentifier = "B68236BC6F07455588EAA8C8"
             BuildableName = "libANTTWEAKBAR_116_OGLCORE_GLFW.a"
             BlueprintName = "ANTTWEAKBAR_116_OGLCORE_GLFW"
             ReferencedContainer = "container:CG_UFPel.xcodeproj">

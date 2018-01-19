@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3652EBAC410B444E9E82DC15"
+               BlueprintIdentifier = "124DDC9A6A8D447FB566384B"
                BuildableName = "install"
                BlueprintName = "install"
                ReferencedContainer = "container:CG_UFPel.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3652EBAC410B444E9E82DC15"
+            BlueprintIdentifier = "124DDC9A6A8D447FB566384B"
             BuildableName = "install"
             BlueprintName = "install"
             ReferencedContainer = "container:CG_UFPel.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3652EBAC410B444E9E82DC15"
+            BlueprintIdentifier = "124DDC9A6A8D447FB566384B"
             BuildableName = "install"
             BlueprintName = "install"
             ReferencedContainer = "container:CG_UFPel.xcodeproj">
