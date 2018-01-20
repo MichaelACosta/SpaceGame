@@ -11,11 +11,10 @@
 // Include GLFW
 #include <glfw3.h>
 GLFWwindow* g_pWindow;
-unsigned int g_nWidth = 1024, g_nHeight = 768;
+unsigned int g_nWidth = 1280, g_nHeight = 800;
 
 // Include AntTweakBar
 #include <AntTweakBar.h>
-TwBar *g_pToolBar;
 
 // Include GLM
 #include <glm/glm.hpp>
@@ -64,7 +63,7 @@ int main(void) {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Open a window and create its OpenGL context
-	g_pWindow = glfwCreateWindow(g_nWidth, g_nHeight, "CG UFPel", NULL, NULL);
+	g_pWindow = glfwCreateWindow(g_nWidth, g_nHeight, "Space Game", NULL, NULL);
 	if (g_pWindow == NULL) {
 		fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
 		glfwTerminate();
@@ -93,13 +92,6 @@ int main(void) {
 	glfwSetKeyCallback(g_pWindow, (GLFWkeyfun)TwEventKeyGLFW);                         // - Directly redirect GLFW key events to AntTweakBar
 	glfwSetCharCallback(g_pWindow, (GLFWcharfun)TwEventCharGLFW);                      // - Directly redirect GLFW char events to AntTweakBar
 	glfwSetWindowSizeCallback(g_pWindow, WindowSizeCallBack);
-
-	//create the toolbar
-	g_pToolBar = TwNewBar("CG UFPel Trabalho2");
-	// Add 'speed' to 'bar': it is a modifable (RW) variable of type TW_TYPE_DOUBLE. Its key shortcuts are [s] and [S].
-	
-    int objSuz=1;
-	TwAddVarRW(g_pToolBar, "Suzane", TW_TYPE_INT32, &objSuz, " label=Suzane");
     
     
 	// Ensure we can capture the escape key being pressed below
@@ -107,7 +99,7 @@ int main(void) {
 	glfwSetCursorPos(g_pWindow, g_nWidth / 2, g_nHeight / 2);
 
 	// Dark blue background
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
@@ -197,9 +189,6 @@ int main(void) {
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 
-		// Draw tweak bars
-		TwDraw();
-
 		// Swap buffers
 		glfwSwapBuffers(g_pWindow);
 		glfwPollEvents();
@@ -215,7 +204,6 @@ int main(void) {
     suz.CleanPtv();
     
 	// Terminate AntTweakBar and GLFW
-	TwTerminate();
 	glfwTerminate();
 
 	return 0;
