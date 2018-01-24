@@ -114,22 +114,28 @@ int main(void) {
     char* textura = (char*) "../mesh/uvmap.DDS";
     
     char* suzane = (char*) "../mesh/suzanne.obj";
+    char* planet = (char*) "../mesh/planeta.obj";
     
-    Model suz(vertex, fragment, textura);;
+    Model ship(vertex, fragment, textura);;
+    Model enemy(vertex, fragment, textura);;
     
-    Mesh suzMesh;
-    suzMesh.SetMesh(suzane);
+    Mesh shipMesh;
+    shipMesh.SetMesh(suzane);
     
+    Mesh enemyMesh;
+    enemyMesh.SetMesh(planet);
     
 	// Load it into a VBO
-    suzMesh.LoadVbo();
+    shipMesh.LoadVbo();
+    enemyMesh.LoadVbo();
     
-    suz.SetLight();
+    ship.SetLight();
+    enemy.SetLight();
     
 
-	// For speed computation
-	double lastTime = glfwGetTime();
-	//int nbFrames    = 0;
+    //	For speed computation
+    //	double lastTime = glfwGetTime();
+    //	int nbFrames    = 0;
     
     
 	do{
@@ -146,7 +152,8 @@ int main(void) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         
-        suz.ShaderModel();
+        ship.ShaderModel();
+        enemy.ShaderModel();
 		
 
 		// Compute the MVP matrix from keyboard and mouse input
@@ -163,27 +170,76 @@ int main(void) {
         ProjectionMatrix = getProjectionMatrix();
         ViewMatrix = getViewMatrix();
 
-                
-        suz.SetPvm();
-                
-        //suz.SetModelMatrix(suz.GetModelMatrix()); //so usa se tiver que fazer movimento
-            
-        MVP = ProjectionMatrix * ViewMatrix * suz.GetModelMatrix();
-                
+        
+//        ##########################
+//        Ship position
+//        ##########################
+        ship.SetPvm();
+        
+        ship.SetModelMatrix(translate(ship.GetModelMatrix(), vec3(0.0,-8.0,0.0)));
+
+        
+        MVP = ProjectionMatrix * ViewMatrix * ship.GetModelMatrix();
+        
                 
         // Send our transformation to the currently bound shader,
         // in the "MVP" uniform
-        suz.SetDraw(MVP, ViewMatrix);
+        ship.SetDraw(MVP, ViewMatrix);
             
-        suz.Light();
+        ship.Light();
             
         // Bind our texture in Texture Unit 0
-        suz.TextureM();
+        ship.TextureM();
                 
                 
-        suzMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
+        shipMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
                 
-        suz.DrawModel(suzMesh.GetIndices());
+        ship.DrawModel(shipMesh.GetIndices());
+        
+        
+//        ##########################
+//        first enemy position
+//        ##########################
+        enemy.SetPvm();
+        
+        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(0.0,6.0,0.0)));
+        MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
+        
+        
+        // Send our transformation to the currently bound shader,
+        // in the "MVP" uniform
+        enemy.SetDraw(MVP, ViewMatrix);
+        
+        
+        enemy.Light();
+        
+        // Bind our texture in Texture Unit 0
+        enemy.TextureM();
+        
+        
+        enemyMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
+        
+        enemy.DrawModel(enemyMesh.GetIndices());
+        
+        
+        
+//        ##########################
+//        second enemy position
+//        ##########################
+        enemy.SetPvm();
+        
+        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(4.0,4.0,0.0)));
+        MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
+        
+        
+        // Send our transformation to the currently bound shader,
+        // in the "MVP" uniform
+        enemy.SetDraw(MVP, ViewMatrix);
+        
+
+        enemy.DrawModel(enemyMesh.GetIndices());
+        
+
         
         glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
@@ -199,9 +255,11 @@ int main(void) {
 
 	// Cleanup VBO and shader
     //movido para mesh.CleanVbo
-    suzMesh.CleanVbo();
+    shipMesh.CleanVbo();
+    enemyMesh.CleanVbo();
         
-    suz.CleanPtv();
+    ship.CleanPtv();
+    enemy.CleanPtv();
     
 	// Terminate AntTweakBar and GLFW
 	glfwTerminate();
