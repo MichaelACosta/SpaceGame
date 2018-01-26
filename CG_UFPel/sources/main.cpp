@@ -134,9 +134,24 @@ int main(void) {
     
 
     //	For speed computation
-    //	double lastTime = glfwGetTime();
+    	double lastTime = glfwGetTime();
+        double frameTime = lastTime;
     //	int nbFrames    = 0;
     
+    int nEnemy = 2, i = 0;
+    
+    float startEnemy = 8.0;
+    float finishEnemy = -8.0;
+    
+    std::vector<float> movEnemy;
+    movEnemy.resize(nEnemy);
+
+    
+    for (i=0; i<nEnemy; ++i) {
+        movEnemy[i] = startEnemy;
+    }
+    
+    float movShip = 0.0;
     
 	do{
         check_gl_error();
@@ -147,7 +162,19 @@ int main(void) {
         else
             nUseMouse = 1;
         
+        double currentTime = glfwGetTime();
+        float dT = 5*(frameTime-currentTime);
+        frameTime = glfwGetTime();
+        
+//        double moveTime = lastTime-currentTime;
+        
+//        if( moveTime >= 5 ){
+//            lastTime = glfwGetTime();
+//        }
 
+//        -(moveTime*8)/2,5 ==> aplicado de 0 ate -8
+//        8-((moveTime*8)/2,5) ==> aplicado de 8 ate 0
+        
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -176,8 +203,15 @@ int main(void) {
 //        ##########################
         ship.SetPvm();
         
-        ship.SetModelMatrix(translate(ship.GetModelMatrix(), vec3(0.0,-8.0,0.0)));
-
+        if (glfwGetKey(g_pWindow, GLFW_KEY_RIGHT) != GLFW_PRESS){
+            movShip-=dT;
+        }
+        if (glfwGetKey(g_pWindow, GLFW_KEY_LEFT) != GLFW_PRESS){
+            movShip+=dT;
+        }
+        
+        ship.SetModelMatrix(translate(ship.GetModelMatrix(), vec3(movShip,-5.0,0.0)));
+        
         
         MVP = ProjectionMatrix * ViewMatrix * ship.GetModelMatrix();
         
@@ -195,16 +229,21 @@ int main(void) {
         shipMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
                 
         ship.DrawModel(shipMesh.GetIndices());
-        
+
         
 //        ##########################
 //        first enemy position
 //        ##########################
+
         enemy.SetPvm();
         
-        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(0.0,6.0,0.0)));
+        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(0.0,movEnemy[0],0.0)));
         MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
         
+        movEnemy[0] -= 0.0516;
+        if(movEnemy[0] <= finishEnemy){
+            movEnemy[0] = startEnemy;
+        }
         
         // Send our transformation to the currently bound shader,
         // in the "MVP" uniform
@@ -221,24 +260,27 @@ int main(void) {
         
         enemy.DrawModel(enemyMesh.GetIndices());
         
-        
-        
-//        ##########################
-//        second enemy position
-//        ##########################
-        enemy.SetPvm();
-        
-        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(4.0,4.0,0.0)));
-        MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
-        
-        
-        // Send our transformation to the currently bound shader,
-        // in the "MVP" uniform
-        enemy.SetDraw(MVP, ViewMatrix);
-        
+        for(i=1; i<nEnemy; i++) {
+            enemy.SetPvm();
+            
+            enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3((2*nEnemy),movEnemy[i],0.0)));
+            MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
 
-        enemy.DrawModel(enemyMesh.GetIndices());
-        
+            movEnemy[i] -= 0.0516;
+            if(movEnemy[i] <= finishEnemy){
+                movEnemy[i] = startEnemy;
+            }
+            
+            
+            
+//            Send our transformation to the currently bound shader,
+//            in the "MVP" uniform
+            enemy.SetDraw(MVP, ViewMatrix);
+            
+            
+            enemy.DrawModel(enemyMesh.GetIndices());
+            
+        }
 
         
         glDisableVertexAttribArray(0);
