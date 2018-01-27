@@ -138,6 +138,7 @@ int main(void) {
         double frameTime = lastTime;
     //	int nbFrames    = 0;
     
+    int time = 10;
     int nEnemy = 2, i = 0;
     
     float startEnemy = 28.0;
@@ -163,14 +164,14 @@ int main(void) {
             nUseMouse = 1;
         
         double currentTime = glfwGetTime();
-        float dT = 5*(frameTime-currentTime);
-        frameTime = glfwGetTime();
+        float dT = 5*(currentTime-frameTime);
+        frameTime = currentTime;
         
-//        double moveTime = lastTime-currentTime;
+        double moveTime = currentTime-lastTime;
         
-//        if( moveTime >= 5 ){
-//            lastTime = glfwGetTime();
-//        }
+        if( moveTime >= time ){
+            lastTime = glfwGetTime();
+        }
 
 //        -(moveTime*8)/2,5 ==> aplicado de 0 ate -8
 //        8-((moveTime*8)/2,5) ==> aplicado de 8 ate 0
@@ -244,7 +245,13 @@ int main(void) {
         enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(1.0,movEnemy[0],0.0)));
         MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
         
-        movEnemy[0] -= 0.0516;
+        
+//        -(moveTime*8)/2,5 ==> aplicado de 0 ate -8
+//        8-((moveTime*8)/2,5) ==> aplicado de 8 ate 0
+
+        movEnemy[0] = (startEnemy-((moveTime*startEnemy)/time));
+        cout << moveTime << '\n';
+//        movEnemy[0] -= 0.0516;
         if(movEnemy[0] <= finishEnemy){
             movEnemy[0] = startEnemy;
         }
@@ -272,7 +279,7 @@ int main(void) {
             enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3((2*nEnemy),movEnemy[i],0.0)));
             MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
 
-            movEnemy[i] -= 0.0516;
+            movEnemy[i] = (startEnemy-((moveTime*startEnemy)/time));
             if(movEnemy[i] <= finishEnemy){
                 movEnemy[i] = startEnemy;
             }
