@@ -140,8 +140,8 @@ int main(void) {
     
     int nEnemy = 2, i = 0;
     
-    float startEnemy = 8.0;
-    float finishEnemy = -8.0;
+    float startEnemy = 28.0;
+    float finishEnemy = 0.0;
     
     std::vector<float> movEnemy;
     movEnemy.resize(nEnemy);
@@ -203,6 +203,8 @@ int main(void) {
 //        ##########################
         ship.SetPvm();
         
+        ship.SetModelMatrix(scale(ship.GetModelMatrix(), vec3(0.6,0.6,0.6)));
+        
         if (glfwGetKey(g_pWindow, GLFW_KEY_RIGHT) != GLFW_PRESS){
             movShip-=dT;
         }
@@ -210,7 +212,7 @@ int main(void) {
             movShip+=dT;
         }
         
-        ship.SetModelMatrix(translate(ship.GetModelMatrix(), vec3(movShip,-5.0,0.0)));
+        ship.SetModelMatrix(translate(ship.GetModelMatrix(), vec3(movShip,3.0,0.0)));
         
         
         MVP = ProjectionMatrix * ViewMatrix * ship.GetModelMatrix();
@@ -237,7 +239,9 @@ int main(void) {
 
         enemy.SetPvm();
         
-        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(0.0,movEnemy[0],0.0)));
+        enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
+        
+        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(1.0,movEnemy[0],0.0)));
         MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
         
         movEnemy[0] -= 0.0516;
@@ -262,6 +266,8 @@ int main(void) {
         
         for(i=1; i<nEnemy; i++) {
             enemy.SetPvm();
+            
+            enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
             
             enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3((2*nEnemy),movEnemy[i],0.0)));
             MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
