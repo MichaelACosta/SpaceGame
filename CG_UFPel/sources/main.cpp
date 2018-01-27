@@ -12,6 +12,7 @@
 #include <glfw3.h>
 GLFWwindow* g_pWindow;
 unsigned int g_nWidth = 1280, g_nHeight = 800;
+//unsigned int g_nWidth = 1024, g_nHeight = 768;
 
 // Include AntTweakBar
 #include <AntTweakBar.h>
@@ -22,6 +23,8 @@ unsigned int g_nWidth = 1280, g_nHeight = 800;
 #include <glm/gtx/transform2.hpp>
 #include <glm/gtx/spline.hpp>
 
+//rand
+#include <stdlib.h>
 
 
 using namespace glm;
@@ -125,7 +128,7 @@ int main(void) {
     Mesh enemyMesh;
     enemyMesh.SetMesh(planet);
     
-	// Load it into a VBO
+//	Load it into a VBO
     shipMesh.LoadVbo();
     enemyMesh.LoadVbo();
     
@@ -133,16 +136,36 @@ int main(void) {
     enemy.SetLight();
     
 
-    //	For speed computation
-    	double lastTime = glfwGetTime();
-        double frameTime = lastTime;
-    //	int nbFrames    = 0;
+//    For speed computation
+	double lastTime = glfwGetTime();
+    double frameTime = lastTime;
+//    int nbFrames    = 0;
     
-    int time = 10;
-    int nEnemy = 2, i = 0;
+    int time = 10, i = 0;
+    int nEnemy = 5;
+    int nPositionEnemy = 10;
     
-    float startEnemy = 28.0;
+    float startEnemy = 30.0;
     float finishEnemy = 0.0;
+    
+//    float lefttShip = -15;
+//    float rightShip = 15;
+    
+//    postion's enemys
+    std::vector<float> positonEnemy;
+    positonEnemy.resize(10);
+    
+    std::vector<int> positionIndex;
+    positionIndex.resize(10);
+    
+    for (i=0; i<nPositionEnemy; ++i) {
+        positionIndex[i] = i;
+        if (i==0) {
+            positonEnemy[i] = -14;
+        } else {
+            positonEnemy[i] = positonEnemy[i-1]+3;
+        }
+    }
     
     std::vector<float> movEnemy;
     movEnemy.resize(nEnemy);
@@ -157,7 +180,8 @@ int main(void) {
 	do{
         check_gl_error();
 
-        //use the control key to free the mouse
+        
+//        use the control key to free the mouse
         if (glfwGetKey(g_pWindow, GLFW_KEY_LEFT_CONTROL) != GLFW_PRESS)
             nUseMouse = 0;
         else
@@ -173,10 +197,8 @@ int main(void) {
             lastTime = glfwGetTime();
         }
 
-//        -(moveTime*8)/2,5 ==> aplicado de 0 ate -8
-//        8-((moveTime*8)/2,5) ==> aplicado de 8 ate 0
         
-		// Clear the screen
+//		Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         
@@ -184,9 +206,7 @@ int main(void) {
         enemy.ShaderModel();
 		
 
-		// Compute the MVP matrix from keyboard and mouse input
-
-        
+//		Compute the MVP matrix from keyboard and mouse input
         glm::mat4 MVP;
         glm::mat4 ProjectionMatrix;
         glm::mat4 ViewMatrix;
@@ -194,7 +214,7 @@ int main(void) {
         computeMatricesFromInputs(nUseMouse, g_nWidth, g_nHeight);
         
 
-        //O P e V do Pvm ficam na main agora;.
+//        O P e V do Pvm ficam na main agora;.
         ProjectionMatrix = getProjectionMatrix();
         ViewMatrix = getViewMatrix();
 
@@ -219,13 +239,13 @@ int main(void) {
         MVP = ProjectionMatrix * ViewMatrix * ship.GetModelMatrix();
         
                 
-        // Send our transformation to the currently bound shader,
-        // in the "MVP" uniform
+//        Send our transformation to the currently bound shader,
+//        in the "MVP" uniform
         ship.SetDraw(MVP, ViewMatrix);
             
         ship.Light();
             
-        // Bind our texture in Texture Unit 0
+//        Bind our texture in Texture Unit 0
         ship.TextureM();
                 
                 
@@ -242,16 +262,15 @@ int main(void) {
         
         enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
         
-        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(1.0,movEnemy[0],0.0)));
+        if (movEnemy[0]>=28) {
+            positionIndex[0]=rand()%10;
+        }
+
+        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[0]],movEnemy[0],0.0)));
         MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
-        
-        
-//        -(moveTime*8)/2,5 ==> aplicado de 0 ate -8
-//        8-((moveTime*8)/2,5) ==> aplicado de 8 ate 0
 
         movEnemy[0] = (startEnemy-((moveTime*startEnemy)/time));
-        cout << moveTime << '\n';
-//        movEnemy[0] -= 0.0516;
+
         if(movEnemy[0] <= finishEnemy){
             movEnemy[0] = startEnemy;
         }
@@ -271,12 +290,17 @@ int main(void) {
         
         enemy.DrawModel(enemyMesh.GetIndices());
         
+//        Other enemys
         for(i=1; i<nEnemy; i++) {
             enemy.SetPvm();
             
             enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
             
-            enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3((2*nEnemy),movEnemy[i],0.0)));
+            if (movEnemy[i]>=28) {
+                positionIndex[i]=rand()%10;
+            }
+            
+            enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[i]],movEnemy[i],0.0)));
             MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
 
             movEnemy[i] = (startEnemy-((moveTime*startEnemy)/time));
