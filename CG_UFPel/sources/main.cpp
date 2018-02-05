@@ -142,8 +142,9 @@ int main(void) {
 //    int nbFrames    = 0;
     
     int time = 10, i = 0;
-    int nEnemy = 5;
+    int nEnemy = 2;
     int nPositionEnemy = 10;
+
     
     float startEnemy = 30.0;
     float finishEnemy = 0.0;
@@ -156,10 +157,12 @@ int main(void) {
     positonEnemy.resize(10);
     
     std::vector<int> positionIndex;
-    positionIndex.resize(10);
+    std::vector<int> positionFlag;
+    positionIndex.resize(nEnemy);
+    positionFlag.resize(nPositionEnemy);
     
     for (i=0; i<nPositionEnemy; ++i) {
-        positionIndex[i] = i;
+        positionFlag[i] = 0;
         if (i==0) {
             positonEnemy[i] = -14;
         } else {
@@ -172,6 +175,7 @@ int main(void) {
 
     
     for (i=0; i<nEnemy; ++i) {
+        positionIndex[i] = i;
         movEnemy[i] = startEnemy;
     }
     
@@ -194,6 +198,18 @@ int main(void) {
         double moveTime = currentTime-lastTime;
         
         if( moveTime >= time ){
+            
+            nEnemy++;
+            if (nEnemy>10) {
+                nEnemy=2;
+                time--;
+            }
+            movEnemy.resize(nEnemy);
+            positionIndex.resize(nEnemy);
+            movEnemy[nEnemy] = startEnemy;
+            positionIndex[nEnemy] = nEnemy-1;
+            positionFlag[nEnemy] = 0;
+            
             lastTime = glfwGetTime();
         }
 
@@ -262,17 +278,21 @@ int main(void) {
         
         enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
         
-        if (movEnemy[0]>=28) {
+        if (movEnemy[0]>=30) {
             positionIndex[0]=rand()%10;
+            positionFlag[positionIndex[0]]=1;
+
         }
 
         enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[0]],movEnemy[0],0.0)));
         MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
-
+        
         movEnemy[0] = (startEnemy-((moveTime*startEnemy)/time));
-
+        
         if(movEnemy[0] <= finishEnemy){
+            startEnemy = 30.00;
             movEnemy[0] = startEnemy;
+            positionFlag[positionIndex[0]]=0;
         }
         
         // Send our transformation to the currently bound shader,
@@ -296,16 +316,25 @@ int main(void) {
             
             enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
             
-            if (movEnemy[i]>=28) {
+            if (movEnemy[i]>=30) {
                 positionIndex[i]=rand()%10;
+                
+                while (positionFlag[positionIndex[i]]==1) {
+                    positionIndex[i]=rand()%10;
+                }
+                
+                positionFlag[positionIndex[i]]=1;
             }
             
             enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[i]],movEnemy[i],0.0)));
             MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
 
             movEnemy[i] = (startEnemy-((moveTime*startEnemy)/time));
+            
             if(movEnemy[i] <= finishEnemy){
+                startEnemy = 30.00;
                 movEnemy[i] = startEnemy;
+                positionFlag[positionIndex[i]]=0;
             }
             
             
