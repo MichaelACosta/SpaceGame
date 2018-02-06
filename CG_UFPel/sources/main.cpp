@@ -151,6 +151,7 @@ int main(void) {
     int time = 10, i = 0;
     int nEnemy = 2;
     int nPositionEnemy = 10;
+    int nGuns = 15;
 
     
     float startEnemy = 30.0;
@@ -164,10 +165,10 @@ int main(void) {
     positonEnemy.resize(10);
     
     std::vector<float> positonGuns;
-    positonGuns.resize(400);
+    positonGuns.resize(nGuns);
     
     std::vector<float> moveGuns;
-    moveGuns.resize(400);
+    moveGuns.resize(nGuns);
     
     int contGuns = 0;
     
@@ -218,6 +219,8 @@ int main(void) {
             if (nEnemy>10) {
                 nEnemy=2;
                 time--;
+                nGuns += 5;
+                moveGuns.resize(nGuns);
             }
             movEnemy.resize(nEnemy);
             positionIndex.resize(nEnemy);
@@ -265,14 +268,16 @@ int main(void) {
             movShip-=dT;
         }
         if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE) == GLFW_PRESS){
-            if (contGuns<400) {
-                contGuns++;
-                positonGuns[contGuns] = movShip;
-                moveGuns[contGuns] = 4.5;
-            }else if (moveGuns[contGuns]>30) {
-                contGuns = 0;
-                positonGuns[contGuns] = movShip;
-                moveGuns[contGuns] = 4.5;
+            if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE) == GLFW_RELEASE){
+                if (contGuns<=nGuns) {
+                    contGuns++;
+                    positonGuns[contGuns] = movShip;
+                    moveGuns[contGuns] = 4.5;
+                }else if (moveGuns[contGuns]>=22) {
+                    contGuns = 0;
+                    positonGuns[contGuns] = movShip;
+                    moveGuns[contGuns] = 4.5;
+                }
             }
         }
         
@@ -315,8 +320,8 @@ int main(void) {
             MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
             
             
-            //        Send our transformation to the currently bound shader,
-            //        in the "MVP" uniform
+//        Send our transformation to the currently bound shader,
+//        in the "MVP" uniform
 //            guns.SetDraw(MVP, ViewMatrix);
             
             guns.Light();
@@ -326,7 +331,7 @@ int main(void) {
             
             gunsMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
 
-            if(moveGuns[1]<=30){
+            if(moveGuns[1]<=28){
                 guns.SetDraw(MVP, ViewMatrix);
                 guns.DrawModel(gunsMesh.GetIndices());
             }
@@ -346,7 +351,7 @@ int main(void) {
                 
                 //        Send our transformation to the currently bound shader,
                 //        in the "MVP" uniform
-                if(moveGuns[i]<=30){
+                if(moveGuns[i]<=28){
                     guns.SetDraw(MVP, ViewMatrix);
                     guns.DrawModel(gunsMesh.GetIndices());
                 }
