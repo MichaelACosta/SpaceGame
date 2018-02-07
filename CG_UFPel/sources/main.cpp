@@ -172,6 +172,9 @@ int main(void) {
     
     int contGuns = 0;
     
+    std::vector<int> flagConflict;
+    flagConflict.resize(nEnemy);
+    
     std::vector<int> positionIndex;
     std::vector<int> positionFlag;
     positionIndex.resize(nEnemy);
@@ -193,6 +196,7 @@ int main(void) {
     for (i=0; i<nEnemy; ++i) {
         positionIndex[i] = i;
         movEnemy[i] = startEnemy;
+        flagConflict[i]=0;
     }
     
     float movShip = 0.0;
@@ -222,13 +226,18 @@ int main(void) {
                 nGuns += 5;
                 moveGuns.resize(nGuns);
             }
+            flagConflict.resize(nEnemy);
             movEnemy.resize(nEnemy);
             positionIndex.resize(nEnemy);
             movEnemy[nEnemy] = startEnemy;
             positionIndex[nEnemy] = nEnemy-1;
             positionFlag[nEnemy] = 0;
+            for (i=0; i<nEnemy; ++i) {
+                flagConflict[i]=0;
+            }
             
             lastTime = glfwGetTime();
+            
         }
 
         
@@ -301,64 +310,6 @@ int main(void) {
                 
         ship.DrawModel(shipMesh.GetIndices());
         
-        
-//        ##########################
-//        Guns position
-//        ##########################
-        
-        guns.SetPvm();
-        
-        guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.6,0.6,0.6)));
-        
-        if(contGuns>=1) {
-            
-            guns.SetModelMatrix(translate(guns.GetModelMatrix(), vec3(positonGuns[1],moveGuns[1],0.0)));
-            
-            guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.05,0.3,0.01)));
-            
-            moveGuns[1]+=dT;
-            MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
-            
-            
-//        Send our transformation to the currently bound shader,
-//        in the "MVP" uniform
-//            guns.SetDraw(MVP, ViewMatrix);
-            
-            guns.Light();
-            
-            //        Bind our texture in Texture Unit 0
-            guns.TextureM();
-            
-            gunsMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
-
-            if(moveGuns[1]<=28){
-                guns.SetDraw(MVP, ViewMatrix);
-                guns.DrawModel(gunsMesh.GetIndices());
-            }
-            
-            for (int i=2; i<=contGuns; ++i) {
-                guns.SetPvm();
-                
-                guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.6,0.6,0.6)));
-                
-                guns.SetModelMatrix(translate(guns.GetModelMatrix(), vec3(positonGuns[i],moveGuns[i],0.0)));
-                
-                guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.05,0.3,0.01)));
-                
-                moveGuns[i]+=dT;
-                MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
-                
-                
-                //        Send our transformation to the currently bound shader,
-                //        in the "MVP" uniform
-                if(moveGuns[i]<=28){
-                    guns.SetDraw(MVP, ViewMatrix);
-                    guns.DrawModel(gunsMesh.GetIndices());
-                }
-            }
-            
-        }
-        
 //        ##########################
 //        first enemy position
 //        ##########################
@@ -384,11 +335,6 @@ int main(void) {
             positionFlag[positionIndex[0]]=0;
         }
         
-        // Send our transformation to the currently bound shader,
-        // in the "MVP" uniform
-        enemy.SetDraw(MVP, ViewMatrix);
-        
-        
         enemy.Light();
         
         // Bind our texture in Texture Unit 0
@@ -397,7 +343,10 @@ int main(void) {
         
         enemyMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
         
+//        if (flagConflict[0]==0) {
+        enemy.SetDraw(MVP, ViewMatrix);
         enemy.DrawModel(enemyMesh.GetIndices());
+//        }
         
 //        Other enemys
         for(i=1; i<nEnemy; i++) {
@@ -430,12 +379,86 @@ int main(void) {
             
 //            Send our transformation to the currently bound shader,
 //            in the "MVP" uniform
+            
+//            if (flagConflict[i]==0) {
             enemy.SetDraw(MVP, ViewMatrix);
-            
-            
             enemy.DrawModel(enemyMesh.GetIndices());
+//             }
             
         }
+        
+        
+//        ##########################
+//        Guns position
+//        ##########################
+        
+        guns.SetPvm();
+        
+        guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.6,0.6,0.6)));
+        
+        if(contGuns>=1) {
+            
+            guns.SetModelMatrix(translate(guns.GetModelMatrix(), vec3(positonGuns[1],moveGuns[1],0.0)));
+            
+            guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.05,0.3,0.01)));
+            
+            for (int y=0; y<nEnemy; ++y) {
+                if (((positonGuns[1] >= (positonEnemy[positionIndex[y]]-2.0))&&(positonGuns[1] <= (positonEnemy[positionIndex[y]]+2.0))) && ((moveGuns[1] >= (movEnemy[y]-1.0))&&(moveGuns[1] <= (movEnemy[y]+1.0)))){
+                    flagConflict[y]=1;
+                }
+            }
+            
+            moveGuns[1]+=dT;
+            MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
+            
+            
+            //        Send our transformation to the currently bound shader,
+            //        in the "MVP" uniform
+            //            guns.SetDraw(MVP, ViewMatrix);
+            
+            guns.Light();
+            
+            //        Bind our texture in Texture Unit 0
+            guns.TextureM();
+            
+            gunsMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
+            
+            if(moveGuns[1]<=28){
+                guns.SetDraw(MVP, ViewMatrix);
+                guns.DrawModel(gunsMesh.GetIndices());
+            }
+            
+            for (int i=2; i<=contGuns; ++i) {
+                guns.SetPvm();
+                
+                guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.6,0.6,0.6)));
+                
+                guns.SetModelMatrix(translate(guns.GetModelMatrix(), vec3(positonGuns[i],moveGuns[i],0.0)));
+                
+                guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.05,0.3,0.01)));
+                
+                for (int y=0; y<nEnemy; ++y) {
+                    if (((positonGuns[i] >= (positonEnemy[positionIndex[y]]-2.0))&&(positonGuns[i] <= (positonEnemy[positionIndex[y]]+2.0))) && ((moveGuns[i] >= (movEnemy[y]-1.0 ))&&(moveGuns[i] <= (movEnemy[y]+1.0)))){
+                        flagConflict[y]=1;
+                    }
+                } 
+                
+                moveGuns[i]+=dT;
+                MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
+                
+                
+                //        Send our transformation to the currently bound shader,
+                //        in the "MVP" uniform
+                if(moveGuns[i]<=28){
+                    guns.SetDraw(MVP, ViewMatrix);
+                    guns.DrawModel(gunsMesh.GetIndices());
+                }
+                
+            }
+            
+        }
+        
+        
 
         
         glDisableVertexAttribArray(0);
