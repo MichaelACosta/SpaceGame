@@ -160,6 +160,7 @@ int main(void) {
     int nPositionEnemy = 8;
     int nGuns = 1000;
     int contGuns = 0;
+    int points = 0;
 
     float startEnemy = 30.0;
     float finishEnemy = 0.0;
@@ -419,6 +420,7 @@ int main(void) {
                     if (((positonGuns[1] >= (positonEnemy[positionIndex[y]]-2.0))&&(positonGuns[1] <= (positonEnemy[positionIndex[y]]+2.0))) && ((moveGuns[1]  >= (movEnemy[y]-1.5))&&(moveGuns[1] <= (movEnemy[y]+0.5)))){
                         flagConflict[y]=1;
                         moveGuns[1] = 30;
+                        points++;
                     }
                 }
             
@@ -427,6 +429,7 @@ int main(void) {
             }
             
             guns.Light();
+            
             
             //        Bind our texture in Texture Unit 0
             guns.TextureM();
@@ -454,6 +457,7 @@ int main(void) {
                         if (((positonGuns[i] >= (positonEnemy[positionIndex[y]]-2.0))&&(positonGuns[i] <= (positonEnemy[positionIndex[y]]+2.0))) &&     ((moveGuns[i] >= (movEnemy[y]-1.5 ))&&(moveGuns[i] <= (movEnemy[y]+0.5)))){
                             flagConflict[y]=1;
                             moveGuns[i] = 30;
+                            points++;
                         }
                     }
                 
