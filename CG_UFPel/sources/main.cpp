@@ -111,7 +111,11 @@ int main(void) {
 
 	// Cull triangles which normal is not towards the camera
 	glEnable(GL_CULL_FACE);
-
+    
+    
+//    ****************************
+//    define variables and objects
+//    ****************************
     char* vertex = (char*) "../shaders/StandardShading.vertexshader";
     char* fragment = (char*) "../shaders/StandardShading.fragmentshader";
     char* textura = (char*) "../mesh/uvmap.DDS";
@@ -133,7 +137,6 @@ int main(void) {
     Mesh gunsMesh;
     gunsMesh.SetMesh(cube);
     
-//	Load it into a VBO
     shipMesh.LoadVbo();
     enemyMesh.LoadVbo();
     gunsMesh.LoadVbo();
@@ -146,60 +149,66 @@ int main(void) {
 //    For speed computation
 	double lastTime = glfwGetTime();
     double frameTime = lastTime;
-//    int nbFrames    = 0;
-    
-    int time = 10, i = 0;
+
+
+//    ******************
+//    Start Variables
+//    ******************
+    int i = 0;
+    int time = 10;
     int nEnemy = 2;
     int nPositionEnemy = 10;
     int nGuns = 15;
+    int contGuns = 0;
 
-    
     float startEnemy = 30.0;
     float finishEnemy = 0.0;
+    float movShip = 0.0;
+
+//    conflict flag enemys
+    std::vector<int> flagConflict;
+    flagConflict.resize(nEnemy);
     
-//    float lefttShip = -15;
-//    float rightShip = 15;
+//    postion index enemy's control
+    std::vector<int> positionIndex;
+    positionIndex.resize(nEnemy);
+    
+//    postion flag enemy's control
+    std::vector<int> positionFlagEnemy;
+    positionFlagEnemy.resize(nPositionEnemy);
     
 //    postion's enemys
     std::vector<float> positonEnemy;
     positonEnemy.resize(10);
     
+//    positon's guns
     std::vector<float> positonGuns;
     positonGuns.resize(nGuns);
-    
+
+//    move guns
     std::vector<float> moveGuns;
     moveGuns.resize(nGuns);
     
-    int contGuns = 0;
+//    move enemy
+    std::vector<float> movEnemy;
+    movEnemy.resize(nEnemy);
     
-    std::vector<int> flagConflict;
-    flagConflict.resize(nEnemy);
-    
-    std::vector<int> positionIndex;
-    std::vector<int> positionFlag;
-    positionIndex.resize(nEnemy);
-    positionFlag.resize(nPositionEnemy);
-    
+//    set the enemy positons
     for (i=0; i<nPositionEnemy; ++i) {
-        positionFlag[i] = 0;
+        positionFlagEnemy[i] = 0;
         if (i==0) {
             positonEnemy[i] = -14;
         } else {
             positonEnemy[i] = positonEnemy[i-1]+3;
         }
     }
-    
-    std::vector<float> movEnemy;
-    movEnemy.resize(nEnemy);
 
-    
+//    set enemy move position
     for (i=0; i<nEnemy; ++i) {
         positionIndex[i] = i;
         movEnemy[i] = startEnemy;
         flagConflict[i]=0;
     }
-    
-    float movShip = 0.0;
     
 	do{
         check_gl_error();
@@ -231,7 +240,7 @@ int main(void) {
             positionIndex.resize(nEnemy);
             movEnemy[nEnemy] = startEnemy;
             positionIndex[nEnemy] = nEnemy-1;
-            positionFlag[nEnemy] = 0;
+            positionFlagEnemy[nEnemy] = 0;
             for (i=0; i<nEnemy; ++i) {
                 flagConflict[i]=0;
             }
@@ -320,7 +329,7 @@ int main(void) {
         
         if (movEnemy[0]>=30) {
             positionIndex[0]=rand()%10;
-            positionFlag[positionIndex[0]]=1;
+            positionFlagEnemy[positionIndex[0]]=1;
 
         }
 
@@ -332,7 +341,7 @@ int main(void) {
         if(movEnemy[0] <= finishEnemy){
             startEnemy = 30.00;
             movEnemy[0] = startEnemy;
-            positionFlag[positionIndex[0]]=0;
+            positionFlagEnemy[positionIndex[0]]=0;
         }
         
         enemy.Light();
@@ -357,11 +366,11 @@ int main(void) {
             if (movEnemy[i]>=30) {
                 positionIndex[i]=rand()%10;
                 
-                while (positionFlag[positionIndex[i]]==1) {
+                while (positionFlagEnemy[positionIndex[i]]==1) {
                     positionIndex[i]=rand()%10;
                 }
                 
-                positionFlag[positionIndex[i]]=1;
+                positionFlagEnemy[positionIndex[i]]=1;
             }
             
             enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[i]],movEnemy[i],0.0)));
@@ -372,7 +381,7 @@ int main(void) {
             if(movEnemy[i] <= finishEnemy){
                 startEnemy = 30.00;
                 movEnemy[i] = startEnemy;
-                positionFlag[positionIndex[i]]=0;
+                positionFlagEnemy[positionIndex[i]]=0;
             }
             
             
