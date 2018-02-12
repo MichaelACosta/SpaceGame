@@ -160,6 +160,7 @@ int main(void) {
     int nPositionEnemy = 10;
     int nGuns = 15;
     int contGuns = 0;
+    int flagIncrementGuns = 0;
 
     float startEnemy = 30.0;
     float finishEnemy = 0.0;
@@ -224,24 +225,30 @@ int main(void) {
         float dT = 5*(currentTime-frameTime);
         frameTime = currentTime;
         
+//        ********************************
+//        control of move enemys with time
+//        ********************************
         double moveTime = currentTime-lastTime;
-        
         if( moveTime >= time ){
             
             nEnemy++;
             if (nEnemy>10) {
                 nEnemy=2;
                 time--;
+                flagIncrementGuns = 1;
+            }
+            if (flagIncrementGuns==1 && moveGuns[contGuns]>=22) {
                 nGuns += 5;
                 moveGuns.resize(nGuns);
+                flagIncrementGuns = 0;
             }
-            flagConflict.resize(nEnemy);
             movEnemy.resize(nEnemy);
             positionIndex.resize(nEnemy);
-            movEnemy[nEnemy] = startEnemy;
-            positionIndex[nEnemy] = nEnemy-1;
-            positionFlagEnemy[nEnemy] = 0;
+            flagConflict.resize(nEnemy);
             for (i=0; i<nEnemy; ++i) {
+                movEnemy[i] = startEnemy;
+                positionIndex[i] = i;
+                positionFlagEnemy[i] = 0;
                 flagConflict[i]=0;
             }
             
