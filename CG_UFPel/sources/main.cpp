@@ -157,7 +157,7 @@ int main(void) {
     int i = 0;
     int time = 10;
     int nEnemy = 2;
-    int nPositionEnemy = 10;
+    int nPositionEnemy = 8;
     int nGuns = 1000;
     int contGuns = 0;
 
@@ -197,7 +197,7 @@ int main(void) {
     for (i=0; i<nPositionEnemy; ++i) {
         positionFlagEnemy[i] = 0;
         if (i==0) {
-            positonEnemy[i] = -14;
+            positonEnemy[i] = -11;
         } else {
             positonEnemy[i] = positonEnemy[i-1]+3;
         }
@@ -231,7 +231,7 @@ int main(void) {
         if( moveTime >= time ){
             
             nEnemy++;
-            if (nEnemy>10) {
+            if (nEnemy>nPositionEnemy) {
                 nEnemy=2;
                 time--;
             }
@@ -328,7 +328,7 @@ int main(void) {
         enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
         
         if (movEnemy[0]>=30) {
-            positionIndex[0]=rand()%10;
+            positionIndex[0]=rand()%nPositionEnemy;
             positionFlagEnemy[positionIndex[0]]=1;
 
         }
@@ -352,11 +352,13 @@ int main(void) {
         
         enemyMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
         
-//        if (flagConflict[0]==0) {
-        enemy.SetDraw(MVP, ViewMatrix);
-        enemy.DrawModel(enemyMesh.GetIndices());
-//        }
-        
+        if (flagConflict[0]==0) {
+            enemy.SetDraw(MVP, ViewMatrix);
+            enemy.DrawModel(enemyMesh.GetIndices());
+        } else {
+            movEnemy[0] = finishEnemy-1;
+        }
+    
 //        Other enemys
         for(i=1; i<nEnemy; i++) {
             enemy.SetPvm();
@@ -364,10 +366,10 @@ int main(void) {
             enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
             
             if (movEnemy[i]>=30) {
-                positionIndex[i]=rand()%10;
+                positionIndex[i]=rand()%nPositionEnemy;
                 
                 while (positionFlagEnemy[positionIndex[i]]==1) {
-                    positionIndex[i]=rand()%10;
+                    positionIndex[i]=rand()%nPositionEnemy;
                 }
                 
                 positionFlagEnemy[positionIndex[i]]=1;
@@ -385,15 +387,16 @@ int main(void) {
             }
             
             
-            
 //            Send our transformation to the currently bound shader,
 //            in the "MVP" uniform
             
-//            if (flagConflict[i]==0) {
-            enemy.SetDraw(MVP, ViewMatrix);
-            enemy.DrawModel(enemyMesh.GetIndices());
-//             }
-            
+            if (flagConflict[i]==0) {
+                enemy.SetDraw(MVP, ViewMatrix);
+                enemy.DrawModel(enemyMesh.GetIndices());
+            } else {
+                movEnemy[i] = finishEnemy-1;
+            }
+        
         }
         
         
@@ -411,20 +414,17 @@ int main(void) {
             
             guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.05,0.3,0.01)));
             
-            for (int y=0; y<nEnemy; ++y) {
-                if (((positonGuns[1] >= (positonEnemy[positionIndex[y]]-2.0))&&(positonGuns[1] <= (positonEnemy[positionIndex[y]]+2.0))) && ((moveGuns[1] >= (movEnemy[y]-1.0))&&(moveGuns[1] <= (movEnemy[y]+1.0)))){
-                    flagConflict[y]=1;
-                    moveGuns[1] = 30;
+            if(moveGuns[1]<=28){
+                for (int y=0; y<nEnemy; ++y) {
+                    if (((positonGuns[1] >= (positonEnemy[positionIndex[y]]-2.0))&&(positonGuns[1] <= (positonEnemy[positionIndex[y]]+2.0))) && ((moveGuns[1]  >= (movEnemy[y]-1.5))&&(moveGuns[1] <= (movEnemy[y]+0.5)))){
+                        flagConflict[y]=1;
+                        moveGuns[1] = 30;
+                    }
                 }
+            
+                moveGuns[1]+=dT;
+                MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
             }
-            
-            moveGuns[1]+=dT;
-            MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
-            
-            
-            //        Send our transformation to the currently bound shader,
-            //        in the "MVP" uniform
-            //            guns.SetDraw(MVP, ViewMatrix);
             
             guns.Light();
             
@@ -451,12 +451,11 @@ int main(void) {
                 if(moveGuns[i]<=28){
                     
                     for (int y=0; y<nEnemy; ++y) {
-                        if (((positonGuns[i] >= (positonEnemy[positionIndex[y]]-2.0))&&(positonGuns[i] <= (positonEnemy[positionIndex[y]]+2.0))) &&     ((moveGuns[i] >= (movEnemy[y]-1.0 ))&&(moveGuns[i] <= (movEnemy[y]+1.0)))){
+                        if (((positonGuns[i] >= (positonEnemy[positionIndex[y]]-2.0))&&(positonGuns[i] <= (positonEnemy[positionIndex[y]]+2.0))) &&     ((moveGuns[i] >= (movEnemy[y]-1.5 ))&&(moveGuns[i] <= (movEnemy[y]+0.5)))){
                             flagConflict[y]=1;
                             moveGuns[i] = 30;
                         }
                     }
-                
                 
                     moveGuns[i]+=dT;
                     MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
