@@ -40,6 +40,7 @@ using namespace std;
 #include <glerror.hpp>
 #include <mesh.hpp>
 #include <model.hpp>
+#include <text2D.hpp>
 
 
 void WindowSizeCallBack(GLFWwindow *pWindow, int nWidth, int nHeight) {
@@ -112,6 +113,9 @@ int main(void) {
 	// Cull triangles which normal is not towards the camera
 	glEnable(GL_CULL_FACE);
     
+    
+    // Initialize our little text library with the Holstein font
+    initText2D("../mesh/Holstein.DDS");
     
 //    ****************************
 //    define variables and objects
@@ -216,7 +220,12 @@ int main(void) {
     
 	do{
         check_gl_error();
-
+        
+        
+        char text[256];
+        sprintf(text,"Points: %d", points );
+        printText2D(text, 10, 800, 10);
+        
         
 //        use the control key to free the mouse
         if (glfwGetKey(g_pWindow, GLFW_KEY_LEFT_CONTROL) != GLFW_PRESS)
@@ -497,6 +506,7 @@ int main(void) {
                 
             }
             
+            
         }
         
         
@@ -514,6 +524,8 @@ int main(void) {
 	while (glfwGetKey(g_pWindow, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
 	glfwWindowShouldClose(g_pWindow) == 0);
 
+    cleanupText2D();
+    
 	// Cleanup VBO and shader
     //movido para mesh.CleanVbo
     shipMesh.CleanVbo();
