@@ -161,6 +161,8 @@ int main(void) {
     int nGuns = 1000;
     int contGuns = 0;
     int points = 0;
+    int pointsTmp = 0;
+    int pointsEnemy = 0;
 
     float startEnemy = 30.0;
     float finishEnemy = 0.0;
@@ -231,6 +233,8 @@ int main(void) {
         double moveTime = currentTime-lastTime;
         if( moveTime >= time ){
             
+            pointsEnemy += nEnemy-pointsTmp;
+            pointsTmp = 0;
             nEnemy++;
             if (nEnemy>nPositionEnemy) {
                 nEnemy=2;
@@ -387,7 +391,6 @@ int main(void) {
                 positionFlagEnemy[positionIndex[i]]=0;
             }
             
-            
 //            Send our transformation to the currently bound shader,
 //            in the "MVP" uniform
             
@@ -399,7 +402,6 @@ int main(void) {
             }
         
         }
-        
         
 //        ##########################
 //        Guns position
@@ -421,6 +423,7 @@ int main(void) {
                         flagConflict[y]=1;
                         moveGuns[1] = 30;
                         points++;
+                        pointsTmp++;
                     }
                 }
             
@@ -458,6 +461,7 @@ int main(void) {
                             flagConflict[y]=1;
                             moveGuns[i] = 30;
                             points++;
+                            pointsTmp++;
                         }
                     }
                 
