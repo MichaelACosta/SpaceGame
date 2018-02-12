@@ -163,6 +163,7 @@ int main(void) {
     int points = 0;
     int pointsTmp = 0;
     int pointsEnemy = 0;
+    int flagShip = 0;
 
     float startEnemy = 30.0;
     float finishEnemy = 0.0;
@@ -312,8 +313,8 @@ int main(void) {
                 
 //        Send our transformation to the currently bound shader,
 //        in the "MVP" uniform
-        ship.SetDraw(MVP, ViewMatrix);
-            
+//        ship.SetDraw(MVP, ViewMatrix);
+        
         ship.Light();
             
 //        Bind our texture in Texture Unit 0
@@ -321,9 +322,12 @@ int main(void) {
                 
                 
         shipMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
-                
-        ship.DrawModel(shipMesh.GetIndices());
         
+        if (flagShip==0) {
+            ship.SetDraw(MVP, ViewMatrix);
+            ship.DrawModel(shipMesh.GetIndices());
+        }
+
 //        ##########################
 //        first enemy position
 //        ##########################
@@ -356,6 +360,14 @@ int main(void) {
         
         
         enemyMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
+        
+        
+        if (flagConflict[0]==0) {
+            if ( (((movShip+2) >= (positonEnemy[positionIndex[0]]-2.0))&&((movShip-2) <= (positonEnemy[positionIndex[0]]+2.0))) && ((2.0  >= (movEnemy[0]-2.0))&&(4.0 <= (movEnemy[0]+2.0))) ) {
+                flagConflict[0] = 1;
+                flagShip = 1;
+            }
+        }
         
         if (flagConflict[0]==0) {
             enemy.SetDraw(MVP, ViewMatrix);
@@ -393,6 +405,13 @@ int main(void) {
             
 //            Send our transformation to the currently bound shader,
 //            in the "MVP" uniform
+            
+            if (flagConflict[i]==0) {
+                if ( (((movShip+2) >= (positonEnemy[positionIndex[i]]-2.0))&&((movShip-2) <= (positonEnemy[positionIndex[i]]+2.0))) && ((4.0  >= (movEnemy[i]-2.0))&&(2.0 <= (movEnemy[i]+2.0))) ) {
+                    flagConflict[i] = 1;
+                    flagShip = 1;
+                }
+            }
             
             if (flagConflict[i]==0) {
                 enemy.SetDraw(MVP, ViewMatrix);
