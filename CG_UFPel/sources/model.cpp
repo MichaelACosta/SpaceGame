@@ -58,7 +58,7 @@ void Model::DrawModel(std::vector<unsigned short> inde){
 }
 
 void Model::Light(){
-    lightPos = glm::vec3(4, 4, 4);
+    lightPos = glm::vec3(2, 5, 4);
     glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 }
 

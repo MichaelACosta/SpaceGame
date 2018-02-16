@@ -437,7 +437,7 @@ int main(void) {
             
             guns.SetModelMatrix(translate(guns.GetModelMatrix(), vec3(positonGuns[1],moveGuns[1],0.0)));
             
-            guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.05,0.3,0.01)));
+            guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.08,0.3,0.01)));
             
             if(moveGuns[1]<=28){
                 for (int y=0; y<nEnemy; ++y) {
@@ -473,7 +473,7 @@ int main(void) {
                 
                 guns.SetModelMatrix(translate(guns.GetModelMatrix(), vec3(positonGuns[i],moveGuns[i],0.0)));
                 
-                guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.05,0.3,0.01)));
+                guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.08,0.3,0.01)));
                 
                 
                 if(moveGuns[i]<=28){
