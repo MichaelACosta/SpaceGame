@@ -167,6 +167,8 @@ int main(void) {
     int flagShip = 0;
     int live = 3;
     
+    float movLeftShip = -12.0;
+    float movRightShip = 12.0;
     float startEnemy = 30.0;
     float finishEnemy = 0.0;
     float movShip = 0.0;
@@ -291,10 +293,14 @@ int main(void) {
             ship.SetModelMatrix(scale(ship.GetModelMatrix(), vec3(0.6,0.6,0.6)));
             
             if (glfwGetKey(g_pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS){
-                movShip+=dT;
+                if (movShip <= movRightShip) {
+                    movShip+=dT;
+                }
             }
             if (glfwGetKey(g_pWindow, GLFW_KEY_LEFT) == GLFW_PRESS){
-                movShip-=dT;
+                if (movShip >= movLeftShip) {
+                    movShip-=dT;
+                }
             }
             if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE) == GLFW_PRESS){
                 if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE) == GLFW_RELEASE){
