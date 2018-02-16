@@ -81,4 +81,5 @@ dependencies: /Users/Costa/Documents/CG2017-2/CG_UFPel/sources/main.cpp \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/include/vboindexer.hpp \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/include/glerror.hpp \
   /Users/Costa/Documents/CG2017-2/CG_UFPel/include/mesh.hpp \
-  /Users/Costa/Documents/CG2017-2/CG_UFPel/include/model.hpp
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/include/model.hpp \
+  /Users/Costa/Documents/CG2017-2/CG_UFPel/include/text2D.hpp

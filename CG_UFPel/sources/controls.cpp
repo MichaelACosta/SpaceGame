@@ -63,7 +63,7 @@ void computeMatricesFromInputs(int nUseMouse, int nWidth, int nHeight){
     // Compute new orientation
     horizontalAngle += mouseSpeed * float(nWidth / 2 - xpos);
     verticalAngle += mouseSpeed * float(nHeight / 2 - ypos);
-
+    
     
     // Direction : Spherical coordinates to Cartesian coordinates conversion
     glm::vec3 direction(

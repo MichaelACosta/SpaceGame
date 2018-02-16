@@ -2966,8 +2966,8 @@ CTwBar::CTwBar(const char *_Name)
     int n = (int)g_TwMgr->m_Bars.size();
     m_PosX = 24*n-8;
     m_PosY = 24*n-8;
-    m_Width = 250;
-    m_Height = 400;
+    m_Width = 200;
+    m_Height = 320;
     int cr, cg, cb;
     if( g_TwMgr->m_UseOldColorScheme )
     {

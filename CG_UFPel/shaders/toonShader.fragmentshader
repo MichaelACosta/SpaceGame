@@ -1,0 +1,28 @@
+#version 330 core
+
+// Interpolated values from the vertex shaders
+in vec2 UV;
+in vec3 Normal_cameraspace;
+in vec3 LightDirection_cameraspace;
+
+// Ouput data
+out vec3 color;
+
+// Values that stay constant for the whole mesh.
+uniform sampler2D myTextureSampler;
+
+
+void main(){	
+	vec3 luz = vec3(LightDirection_cameraspace);
+	vec3 normais = vec3(Normal_cameraspace);
+	float intensity =  dot(luz,normais);
+	
+	if (intensity > 0.95)
+			color = vec3(1.0, 1.0, 1.0) * texture( myTextureSampler, UV ).rgb;
+		else if (intensity > 0.5)
+			color = texture( myTextureSampler, UV ).rgb;
+		else if (intensity > 0.25)
+			color = 0.4 * texture( myTextureSampler, UV ).rgb;
+		else
+			color = 0.2 * texture( myTextureSampler, UV ).rgb;
+}

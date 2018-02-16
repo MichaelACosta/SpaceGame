@@ -35,8 +35,6 @@ add_executable(CG_UFPel
     include/texture.hpp
     include/vboindexer.hpp
     include/glerror.hpp
-    include/mesh.hpp
-    include/model.hpp
 )
 
 include_directories(

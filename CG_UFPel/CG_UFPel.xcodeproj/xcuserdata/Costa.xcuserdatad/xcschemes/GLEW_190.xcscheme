@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "93962FECCAA945CE8E6200CF"
+               BlueprintIdentifier = "2D4DDD878FF14B86B2120E82"
                BuildableName = "libGLEW_190.a"
                BlueprintName = "GLEW_190"
                ReferencedContainer = "container:CG_UFPel.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "93962FECCAA945CE8E6200CF"
+            BlueprintIdentifier = "2D4DDD878FF14B86B2120E82"
             BuildableName = "libGLEW_190.a"
             BlueprintName = "GLEW_190"
             ReferencedContainer = "container:CG_UFPel.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "93962FECCAA945CE8E6200CF"
+            BlueprintIdentifier = "2D4DDD878FF14B86B2120E82"
             BuildableName = "libGLEW_190.a"
             BlueprintName = "GLEW_190"
             ReferencedContainer = "container:CG_UFPel.xcodeproj">

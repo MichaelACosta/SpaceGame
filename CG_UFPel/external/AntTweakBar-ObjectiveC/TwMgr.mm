@@ -6198,14 +6198,14 @@ void CTwMgr::UpdateHelpBar()
     RotoGrp->m_SummaryCallback = NULL;
     RotoGrp->m_SummaryClientData = NULL;
     RotoGrp->m_StructValuePtr = NULL;
-    RotoGrp->m_Name = "Transformacoes";
+    RotoGrp->m_Name = "RotoSlider";
     RotoGrp->m_Open = false;
     RotoGrp->m_ColorPtr = &(m_HelpBar->m_ColGrpText);
     m_HelpBar->m_VarRoot.m_Vars.push_back(RotoGrp);
-    AppendHelpString(RotoGrp, "Este trabalho permite a criacao de 3 objetos distintos, desenhando no maximo 10 vezes cada objeto.", 0, m_HelpBar->m_VarX2-m_HelpBar->m_VarX0, TW_TYPE_HELP_ATOM);
-    AppendHelpString(RotoGrp, "Voce pode usar o menu lateral para escolher a quantidade e alternar entre os objetos.", 0, m_HelpBar->m_VarX2-m_HelpBar->m_VarX0, TW_TYPE_HELP_ATOM);
-    AppendHelpString(RotoGrp, "O menu lateral permite alternar estre transformacoes, sendo estas possiveis de serem aplicadas a objetos especificos.", 0, m_HelpBar->m_VarX2-m_HelpBar->m_VarX0, TW_TYPE_HELP_ATOM);
-    AppendHelpString(RotoGrp, "A ultima opcao disponivel da inicio a uma animacao curta.", 0, m_HelpBar->m_VarX2-m_HelpBar->m_VarX0, TW_TYPE_HELP_ATOM);
+    AppendHelpString(RotoGrp, "The RotoSlider allows rapid editing of numerical values.", 0, m_HelpBar->m_VarX2-m_HelpBar->m_VarX0, TW_TYPE_HELP_ATOM);
+    AppendHelpString(RotoGrp, "To modify a numerical value, click on its label or on its roto [.] button, then move the mouse outside of the grey circle while keeping the mouse button pressed, and turn around the circle to increase or decrease the numerical value.", 0, m_HelpBar->m_VarX2-m_HelpBar->m_VarX0, TW_TYPE_HELP_ATOM);
+    AppendHelpString(RotoGrp, "The two grey lines depict the min and max bounds.", 0, m_HelpBar->m_VarX2-m_HelpBar->m_VarX0, TW_TYPE_HELP_ATOM);
+    AppendHelpString(RotoGrp, "Moving the mouse far form the circle allows precise increase or decrease, while moving near the circle allows fast increase or decrease.", 0, m_HelpBar->m_VarX2-m_HelpBar->m_VarX0, TW_TYPE_HELP_ATOM);
 
     SynchroHierarchy(&m_HelpBar->m_VarRoot, &prevHierarchy);
 

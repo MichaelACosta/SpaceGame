@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "36E8F06F63C7490DBF6A6D2C"
+               BlueprintIdentifier = "22BB8896F66A49E292B3CEE2"
                BuildableName = "libassimp.a"
                BlueprintName = "assimp"
                ReferencedContainer = "container:CG_UFPel.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "36E8F06F63C7490DBF6A6D2C"
+            BlueprintIdentifier = "22BB8896F66A49E292B3CEE2"
             BuildableName = "libassimp.a"
             BlueprintName = "assimp"
             ReferencedContainer = "container:CG_UFPel.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "36E8F06F63C7490DBF6A6D2C"
+            BlueprintIdentifier = "22BB8896F66A49E292B3CEE2"
             BuildableName = "libassimp.a"
             BlueprintName = "assimp"
             ReferencedContainer = "container:CG_UFPel.xcodeproj">
