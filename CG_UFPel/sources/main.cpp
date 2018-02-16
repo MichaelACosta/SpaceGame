@@ -165,6 +165,7 @@ int main(void) {
     int pointsTmp = 0;
     int pointsEnemy = 0;
     int flagShip = 0;
+    int live = 3;
     
     float startEnemy = 30.0;
     float finishEnemy = 0.0;
@@ -502,9 +503,15 @@ int main(void) {
             
         }
         
-        char text[256];
+        char text[25];
         sprintf(text,"Points: %d", points );
-        printText2D(text, 700, 500, 10);
+        printText2D(text, 80, 570, 15);
+        
+        sprintf(text,"Enemys: %d", pointsEnemy );
+        printText2D(text, 330, 570, 15);
+        
+        sprintf(text,"Lives: %d", live );
+        printText2D(text, 580, 570, 15);
         
         
         glDisableVertexAttribArray(0);
