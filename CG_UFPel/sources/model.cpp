@@ -17,8 +17,8 @@ Model::Model(char* vertex, char* fragment, char* textura){
     
     
     // Load the texture
-    Texture = loadDDS(textura);
-    //Texture = loadBMP_custom(textura);
+//    Texture = loadDDS(textura);
+    Texture = loadBMP_custom(textura);
     
     // Get a handle for our "myTextureSampler" uniform
     TextureID = glGetUniformLocation(programID, "myTextureSampler");
@@ -58,7 +58,7 @@ void Model::DrawModel(std::vector<unsigned short> inde){
 }
 
 void Model::Light(){
-    lightPos = glm::vec3(2, 5, 4);
+    lightPos = glm::vec3(-2, 7, 6);
     glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 }
 

@@ -119,21 +119,23 @@ int main(void) {
     //    ****************************
     char* vertex = (char*) "../shaders/toonShader.vertexshader";
     char* fragment = (char*) "../shaders/toonShader.fragmentshader";
-    char* textura = (char*) "../mesh/uvmap.DDS";
+    char* tiro = (char*) "../mesh/tiro.bmp";
+    char* planeta = (char*) "../mesh/pelo.bmp";
+    char* nave = (char*) "../mesh/monolito.bmp";
     
     char* suzane = (char*) "../mesh/suzanne.obj";
     char* planet = (char*) "../mesh/planeta.obj";
     char* cube = (char*) "../mesh/cube.obj";
     
-    Model ship(vertex, fragment, textura);
-    Model enemy(vertex, fragment, textura);
-    Model guns(vertex, fragment, textura);
+    Model ship(vertex, fragment, nave);
+    Model enemy(vertex, fragment, planeta);
+    Model guns(vertex, fragment, tiro);
     
     Mesh shipMesh;
-    shipMesh.SetMesh(suzane);
+    shipMesh.SetMesh(cube);
     
     Mesh enemyMesh;
-    enemyMesh.SetMesh(planet);
+    enemyMesh.SetMesh(suzane);
     
     Mesh gunsMesh;
     gunsMesh.SetMesh(cube);
@@ -290,7 +292,7 @@ int main(void) {
             //        ##########################
             ship.SetPvm();
             
-            ship.SetModelMatrix(scale(ship.GetModelMatrix(), vec3(0.6,0.6,0.6)));
+            ship.SetModelMatrix(scale(ship.GetModelMatrix(), vec3(0.6,0.6,0.1)));
             
             if (glfwGetKey(g_pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS){
                 if (movShip <= movRightShip) {
@@ -317,8 +319,9 @@ int main(void) {
             }
             
             ship.SetModelMatrix(translate(ship.GetModelMatrix(), vec3(movShip,3.0,0.0)));
+            ship.SetModelMatrix(rotate(ship.GetModelMatrix(), (float) 150, vec3(1.0,0.0,0.0)));
             
-            
+            ship.SetModelMatrix(scale(ship.GetModelMatrix(), vec3(0.7,1,0.2)));
             MVP = ProjectionMatrix * ViewMatrix * ship.GetModelMatrix();
             
             
