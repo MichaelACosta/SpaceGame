@@ -124,7 +124,7 @@ int main(void) {
     char* nave = (char*) "../mesh/monolito.bmp";
     
     char* suzane = (char*) "../mesh/suzanne.obj";
-    char* planet = (char*) "../mesh/planeta.obj";
+//    char* planet = (char*) "../mesh/planeta.obj";
     char* cube = (char*) "../mesh/cube.obj";
     
     Model ship(vertex, fragment, nave);
@@ -286,13 +286,9 @@ int main(void) {
             ProjectionMatrix = getProjectionMatrix();
             ViewMatrix = getViewMatrix();
             
-            
-            //        ##########################
-            //        Ship position
-            //        ##########################
-            ship.SetPvm();
-            
-            ship.SetModelMatrix(scale(ship.GetModelMatrix(), vec3(0.6,0.6,0.1)));
+//            ##############
+//            Movemente
+//            ##############
             
             if (glfwGetKey(g_pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS){
                 if (movShip <= movRightShip) {
@@ -318,6 +314,15 @@ int main(void) {
                 }
             }
             
+            
+//            ##########################
+//            Ship position
+//            ##########################
+            ship.SetPvm();
+            
+            ship.SetModelMatrix(scale(ship.GetModelMatrix(), vec3(0.6,0.6,0.1)));
+            
+            
             ship.SetModelMatrix(translate(ship.GetModelMatrix(), vec3(movShip,3.0,0.0)));
             ship.SetModelMatrix(rotate(ship.GetModelMatrix(), (float) 150, vec3(1.0,0.0,0.0)));
             
@@ -342,9 +347,9 @@ int main(void) {
                 ship.DrawModel(shipMesh.GetIndices());
             }
             
-            //        ##########################
-            //        first enemy position
-            //        ##########################
+//          ##########################
+//          first enemy position
+//          ##########################
             
             enemy.SetPvm();
             
@@ -353,7 +358,6 @@ int main(void) {
             if (movEnemy[0]>=30) {
                 positionIndex[0]=rand()%nPositionEnemy;
                 positionFlagEnemy[positionIndex[0]]=1;
-                
             }
             
             enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[0]],movEnemy[0],0.0)));
@@ -393,7 +397,9 @@ int main(void) {
                 movEnemy[0] = finishEnemy-1;
             }
             
-            //        Other enemys
+//        ##########################
+//        Other enemys
+//        ##########################
             for(i=1; i<nEnemy; i++) {
                 enemy.SetPvm();
                 
@@ -452,13 +458,20 @@ int main(void) {
             
             if(contGuns>=1) {
                 
+                moveGuns[1]+=dT;
+                
                 guns.SetModelMatrix(translate(guns.GetModelMatrix(), vec3(positonGuns[1],moveGuns[1],0.0)));
                 
                 guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.08,0.3,0.01)));
                 
                 if(moveGuns[1]<=28){
                     for (int y=0; y<nEnemy; ++y) {
-                        if (((positonGuns[1] >= (positonEnemy[positionIndex[y]]-2.0))&&(positonGuns[1] <= (positonEnemy[positionIndex[y]]+2.0))) && ((moveGuns[1]  >= (movEnemy[y]-1.5))&&(moveGuns[1] <= (movEnemy[y]+0.5)))){
+                        
+                        enemy.SetPvm();
+                        enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
+                        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[y]],movEnemy[y],0.0)));
+                        
+                        if ( (((guns.GetModelMatrix()[3][0]-0.3) <= (enemy.GetModelMatrix()[3][0]+0.3)) && ((guns.GetModelMatrix()[3][0]+0.3) >= (enemy.GetModelMatrix()[3][0]-0.3))) && (((guns.GetModelMatrix()[3][1]-0.3) <= (enemy.GetModelMatrix()[3][1]+0.3)) && ((guns.GetModelMatrix()[3][1]+0.3) >= (enemy.GetModelMatrix()[3][1]-0.3))) ){
                             flagConflict[y]=1;
                             moveGuns[1] = 30;
                             points++;
@@ -466,7 +479,6 @@ int main(void) {
                         }
                     }
                     
-                    moveGuns[1]+=dT;
                     MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
                 }
                 
@@ -488,6 +500,8 @@ int main(void) {
                     
                     guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.6,0.6,0.6)));
                     
+                    moveGuns[i]+=dT;
+                    
                     guns.SetModelMatrix(translate(guns.GetModelMatrix(), vec3(positonGuns[i],moveGuns[i],0.0)));
                     
                     guns.SetModelMatrix(scale(guns.GetModelMatrix(), vec3(0.08,0.3,0.01)));
@@ -496,17 +510,21 @@ int main(void) {
                     if(moveGuns[i]<=28){
                         
                         for (int y=0; y<nEnemy; ++y) {
-                            if (((positonGuns[i] >= (positonEnemy[positionIndex[y]]-2.0))&&(positonGuns[i] <= (positonEnemy[positionIndex[y]]+2.0))) &&     ((moveGuns[i] >= (movEnemy[y]-1.5 ))&&(moveGuns[i] <= (movEnemy[y]+0.5)))){
+                            enemy.SetPvm();
+                            enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
+                            enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[y]],movEnemy[y],0.0)));
+                            
+                            if ( (((guns.GetModelMatrix()[3][0]-0.3) <= (enemy.GetModelMatrix()[3][0]+0.3)) && ((guns.GetModelMatrix()[3][0]+0.3) >= (enemy.GetModelMatrix()[3][0]-0.3))) && (((guns.GetModelMatrix()[3][1]-0.3) <= (enemy.GetModelMatrix()[3][1]+0.3)) && ((guns.GetModelMatrix()[3][1]+0.3) >= (enemy.GetModelMatrix()[3][1]-0.3))) ){
                                 flagConflict[y]=1;
                                 moveGuns[i] = 30;
                                 points++;
                                 pointsTmp++;
+                                
                             }
                         }
                         
-                        moveGuns[i]+=dT;
                         MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
-                        
+                    
                         
                         //        Send our transformation to the currently bound shader,
                         //        in the "MVP" uniform
