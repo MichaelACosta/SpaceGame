@@ -387,7 +387,10 @@ int main(void) {
             
             
             if (flagConflict[0]==0) {
-                if ( (((movShip+2) >= (positonEnemy[positionIndex[0]]-2.0))&&((movShip-2) <= (positonEnemy[positionIndex[0]]+2.0))) && ((2.0  >= (movEnemy[0]-2.0))&&(4.0 <= (movEnemy[0]+2.0))) ) {
+//                if ( (((movShip+2) >= (positonEnemy[positionIndex[0]]-2.0))&&((movShip-2) <= (positonEnemy[positionIndex[0]]+2.0))) && ((2.0  >= (movEnemy[0]-2.0))&&(4.0 <= (movEnemy[0]+2.0))) ) {
+                
+                if ( (((ship.GetModelMatrix()[3][0]-0.6) <= (ModelMatrixEnemys[0][3][0]+0.6)) && ((ship.GetModelMatrix()[3][0]+0.6) >= (ModelMatrixEnemys[0][3][0]-0.6))) && (((ship.GetModelMatrix()[3][1]-0.6) <= (ModelMatrixEnemys[0][3][1]+0.6)) && ((ship.GetModelMatrix()[3][1]+0.6) >= (ModelMatrixEnemys[0][3][1]-0.6))) ){
+                    
                     flagConflict[0] = 1;
                     live--;
                     if (live==0) {
@@ -437,7 +440,9 @@ int main(void) {
                 //            in the "MVP" uniform
                 
                 if (flagConflict[i]==0) {
-                    if ( (((movShip+2) >= (positonEnemy[positionIndex[i]]-2.0))&&((movShip-2) <= (positonEnemy[positionIndex[i]]+2.0))) && ((4.0  >= (movEnemy[i]-2.0))&&(2.0 <= (movEnemy[i]+2.0))) ) {
+//                    if ( (((movShip+2) >= (positonEnemy[positionIndex[i]]-2.0))&&((movShip-2) <= (positonEnemy[positionIndex[i]]+2.0))) && ((4.0  >= (movEnemy[i]-2.0))&&(2.0 <= (movEnemy[i]+2.0))) ) {
+                    
+                    if ( (((ship.GetModelMatrix()[3][0]-0.6) <= (ModelMatrixEnemys[i][3][0]+0.6)) && ((ship.GetModelMatrix()[3][0]+0.6) >= (ModelMatrixEnemys[i][3][0]-0.6))) && (((ship.GetModelMatrix()[3][1]-0.6) <= (ModelMatrixEnemys[i][3][1]+0.6)) && ((ship.GetModelMatrix()[3][1]+0.6) >= (ModelMatrixEnemys[i][3][1]-0.6))) ){
                         flagConflict[i] = 1;
                         live--;
                         if (live==0) {
