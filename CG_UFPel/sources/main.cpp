@@ -175,6 +175,10 @@ int main(void) {
     float finishEnemy = 0.0;
     float movShip = 0.0;
     
+    //    Start Model Matrix Enemys
+    std::vector<glm::mat4> ModelMatrixEnemys;
+    ModelMatrixEnemys.resize(nEnemy);
+    
     //    conflict flag enemys
     std::vector<int> flagConflict;
     flagConflict.resize(nEnemy);
@@ -250,6 +254,7 @@ int main(void) {
                     nEnemy=2;
                     time--;
                 }
+                ModelMatrixEnemys.resize(nEnemy);
                 movEnemy.resize(nEnemy);
                 positionIndex.resize(nEnemy);
                 flagConflict.resize(nEnemy);
@@ -361,7 +366,8 @@ int main(void) {
             }
             
             enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[0]],movEnemy[0],0.0)));
-            MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
+            ModelMatrixEnemys[0] = enemy.GetModelMatrix();
+            MVP = ProjectionMatrix * ViewMatrix * ModelMatrixEnemys[0];
             
             movEnemy[0] = (startEnemy-((moveTime*startEnemy)/time));
             
@@ -416,7 +422,8 @@ int main(void) {
                 }
                 
                 enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[i]],movEnemy[i],0.0)));
-                MVP = ProjectionMatrix * ViewMatrix * enemy.GetModelMatrix();
+                ModelMatrixEnemys[i] = enemy.GetModelMatrix();
+                MVP = ProjectionMatrix * ViewMatrix * ModelMatrixEnemys[i];
                 
                 movEnemy[i] = (startEnemy-((moveTime*startEnemy)/time));
                 
@@ -467,11 +474,7 @@ int main(void) {
                 if(moveGuns[1]<=28){
                     for (int y=0; y<nEnemy; ++y) {
                         
-                        enemy.SetPvm();
-                        enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
-                        enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[y]],movEnemy[y],0.0)));
-                        
-                        if ( (((guns.GetModelMatrix()[3][0]-0.3) <= (enemy.GetModelMatrix()[3][0]+0.3)) && ((guns.GetModelMatrix()[3][0]+0.3) >= (enemy.GetModelMatrix()[3][0]-0.3))) && (((guns.GetModelMatrix()[3][1]-0.3) <= (enemy.GetModelMatrix()[3][1]+0.3)) && ((guns.GetModelMatrix()[3][1]+0.3) >= (enemy.GetModelMatrix()[3][1]-0.3))) ){
+                        if ( (((guns.GetModelMatrix()[3][0]-0.3) <= (ModelMatrixEnemys[y][3][0]+0.3)) && ((guns.GetModelMatrix()[3][0]+0.3) >= (ModelMatrixEnemys[y][3][0]-0.3))) && (((guns.GetModelMatrix()[3][1]-0.3) <= (ModelMatrixEnemys[y][3][1]+0.3)) && ((guns.GetModelMatrix()[3][1]+0.3) >= (ModelMatrixEnemys[y][3][1]-0.3))) ){
                             flagConflict[y]=1;
                             moveGuns[1] = 30;
                             points++;
@@ -510,11 +513,8 @@ int main(void) {
                     if(moveGuns[i]<=28){
                         
                         for (int y=0; y<nEnemy; ++y) {
-                            enemy.SetPvm();
-                            enemy.SetModelMatrix(scale(enemy.GetModelMatrix(), vec3(0.5,0.5,0.5)));
-                            enemy.SetModelMatrix(translate(enemy.GetModelMatrix(), vec3(positonEnemy[positionIndex[y]],movEnemy[y],0.0)));
                             
-                            if ( (((guns.GetModelMatrix()[3][0]-0.3) <= (enemy.GetModelMatrix()[3][0]+0.3)) && ((guns.GetModelMatrix()[3][0]+0.3) >= (enemy.GetModelMatrix()[3][0]-0.3))) && (((guns.GetModelMatrix()[3][1]-0.3) <= (enemy.GetModelMatrix()[3][1]+0.3)) && ((guns.GetModelMatrix()[3][1]+0.3) >= (enemy.GetModelMatrix()[3][1]-0.3))) ){
+                            if ( (((guns.GetModelMatrix()[3][0]-0.3) <= (ModelMatrixEnemys[y][3][0]+0.3)) && ((guns.GetModelMatrix()[3][0]+0.3) >= (ModelMatrixEnemys[y][3][0]-0.3))) && (((guns.GetModelMatrix()[3][1]-0.3) <= (ModelMatrixEnemys[y][3][1]+0.3)) && ((guns.GetModelMatrix()[3][1]+0.3) >= (ModelMatrixEnemys[y][3][1]-0.3))) ){
                                 flagConflict[y]=1;
                                 moveGuns[i] = 30;
                                 points++;
