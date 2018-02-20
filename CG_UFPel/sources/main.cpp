@@ -166,7 +166,7 @@ int main(void) {
     int points = 0;
     int pointsTmp = 0;
     int pointsEnemy = 0;
-    int flagShip = 0;
+    int flagShip = 10;
     int live = 3;
     
     float movLeftShip = -12.0;
@@ -236,7 +236,10 @@ int main(void) {
         else
             nUseMouse = 1;
         
-        
+        if (glfwGetKey(g_pWindow, GLFW_KEY_ENTER) == GLFW_PRESS){
+            flagShip = 0;
+        }
+
         
         if ((time-1)<=1 && nEnemy==nPositionEnemy){
             if (pointsEnemy>=points) {
@@ -245,6 +248,7 @@ int main(void) {
                 flagShip=2;
             }
         }
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         if (flagShip==0) {
             
             double currentTime = glfwGetTime();
@@ -280,7 +284,7 @@ int main(void) {
             
             
             //		Clear the screen
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             
             
             ship.ShaderModel();
@@ -559,11 +563,30 @@ int main(void) {
             sprintf(text,"Lives: %d", live );
             printText2D(text, 580, 570, 15);
             
-        } else if(flagShip==1) {
+        } else if(flagShip==10) {
+            char text[50];
+            sprintf(text,"Move Ship:" );
+            printText2D(text, 150, 400, 18);
+
+            sprintf(text,"Key Right and Key Left" );
+            printText2D(text, 90, 370, 14);
+            
+            sprintf(text,"Shot:" );
+            printText2D(text, 500, 400, 18);
+            
+            sprintf(text,"Key Space" );
+            printText2D(text, 480, 370, 14);
+            
+            sprintf(text,"Start Game:" );
+            printText2D(text, 300, 200, 18);
+            
+            sprintf(text,"Press Enter" );
+            printText2D(text, 320, 170, 14);
+        } else if(flagShip==1){
             char text[25];
             sprintf(text,"Game Over!" );
-            printText2D(text, 170, 300, 50);
-        } else {
+            printText2D(text, 175, 300, 50);
+        }else {
             char text[25];
             sprintf(text,"You Win!" );
             printText2D(text, 175, 300, 50);
