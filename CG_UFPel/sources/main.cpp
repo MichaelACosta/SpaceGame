@@ -236,7 +236,16 @@ int main(void) {
         else
             nUseMouse = 1;
         
-        if (flagShip!=1) {
+        
+        
+        if ((time-1)<=1 && nEnemy==nPositionEnemy){
+            if (pointsEnemy>=points) {
+                flagShip=1;
+            } else {
+                flagShip=2;
+            }
+        }
+        if (flagShip==0) {
             
             double currentTime = glfwGetTime();
             float dT = 5*(currentTime-frameTime);
@@ -387,7 +396,6 @@ int main(void) {
             
             
             if (flagConflict[0]==0) {
-//                if ( (((movShip+2) >= (positonEnemy[positionIndex[0]]-2.0))&&((movShip-2) <= (positonEnemy[positionIndex[0]]+2.0))) && ((2.0  >= (movEnemy[0]-2.0))&&(4.0 <= (movEnemy[0]+2.0))) ) {
                 
                 if ( (((ship.GetModelMatrix()[3][0]-0.6) <= (ModelMatrixEnemys[0][3][0]+0.6)) && ((ship.GetModelMatrix()[3][0]+0.6) >= (ModelMatrixEnemys[0][3][0]-0.6))) && (((ship.GetModelMatrix()[3][1]-0.6) <= (ModelMatrixEnemys[0][3][1]+0.6)) && ((ship.GetModelMatrix()[3][1]+0.6) >= (ModelMatrixEnemys[0][3][1]-0.6))) ){
                     
@@ -440,7 +448,6 @@ int main(void) {
                 //            in the "MVP" uniform
                 
                 if (flagConflict[i]==0) {
-//                    if ( (((movShip+2) >= (positonEnemy[positionIndex[i]]-2.0))&&((movShip-2) <= (positonEnemy[positionIndex[i]]+2.0))) && ((4.0  >= (movEnemy[i]-2.0))&&(2.0 <= (movEnemy[i]+2.0))) ) {
                     
                     if ( (((ship.GetModelMatrix()[3][0]-0.6) <= (ModelMatrixEnemys[i][3][0]+0.6)) && ((ship.GetModelMatrix()[3][0]+0.6) >= (ModelMatrixEnemys[i][3][0]-0.6))) && (((ship.GetModelMatrix()[3][1]-0.6) <= (ModelMatrixEnemys[i][3][1]+0.6)) && ((ship.GetModelMatrix()[3][1]+0.6) >= (ModelMatrixEnemys[i][3][1]-0.6))) ){
                         flagConflict[i] = 1;
@@ -552,10 +559,14 @@ int main(void) {
             sprintf(text,"Lives: %d", live );
             printText2D(text, 580, 570, 15);
             
+        } else if(flagShip==1) {
+            char text[25];
+            sprintf(text,"Game Over!" );
+            printText2D(text, 170, 300, 50);
         } else {
             char text[25];
-            sprintf(text,"Game Over" );
-            printText2D(text, 170, 300, 50);
+            sprintf(text,"You Win!" );
+            printText2D(text, 175, 300, 50);
         }
         
         glDisableVertexAttribArray(0);
