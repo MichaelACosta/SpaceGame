@@ -4,24 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-
-
-
-
-// Include GLEW
 #include <GL/glew.h>
-
-
-
-// Include GLM
 #include <glm/glm.hpp>
-
 #include <vboindexer.hpp>
 #include <objloader.hpp>
 
-
 using namespace glm;
-
 
 class Mesh{
 public:
@@ -47,24 +35,18 @@ public:
 private:
     
     bool res;
-    
-    // Read our .obj file
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec2> uvs;
     std::vector<glm::vec3> normals;
-    
     std::vector<unsigned short> indices;
     std::vector<glm::vec3> indexed_vertices;
     std::vector<glm::vec2> indexed_uvs;
     std::vector<glm::vec3> indexed_normals;
-    
     GLuint vertexbuffer;
     GLuint uvbuffer;
     GLuint normalbuffer;
     GLuint elementbuffer;
     
 };
-
-
 
 #endif
