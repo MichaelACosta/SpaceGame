@@ -12,7 +12,6 @@
 #include <glfw3.h>
 GLFWwindow* g_pWindow;
 unsigned int g_nWidth = 1280, g_nHeight = 800;
-//unsigned int g_nWidth = 1024, g_nHeight = 768;
 
 // Include AntTweakBar
 #include <AntTweakBar.h>
@@ -23,7 +22,6 @@ unsigned int g_nWidth = 1280, g_nHeight = 800;
 #include <glm/gtx/transform2.hpp>
 #include <glm/gtx/spline.hpp>
 
-//rand
 #include <stdlib.h>
 
 
@@ -54,7 +52,7 @@ void WindowSizeCallBack(GLFWwindow *pWindow, int nWidth, int nHeight) {
 int main(void) {
     int nUseMouse = 0;
     
-    // Initialise GLFW
+//    Initialise GLFW
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize GLFW\n");
         return -1;
@@ -63,7 +61,7 @@ int main(void) {
     glfwWindowHint(GLFW_SAMPLES, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
     // Open a window and create its OpenGL context
@@ -76,59 +74,59 @@ int main(void) {
     
     glfwMakeContextCurrent(g_pWindow);
     
-    // Initialize GLEW
-    glewExperimental = true; // Needed for core profile
+//    Initialize GLEW
+    glewExperimental = true;
     if (glewInit() != GLEW_OK) {
         fprintf(stderr, "Failed to initialize GLEW\n");
         return -1;
     }
     
-    check_gl_error();//OpenGL error from GLEW
+    check_gl_error();
     
-    // Initialize the GUI
+//    Initialize the GUI
     TwInit(TW_OPENGL_CORE, NULL);
     TwWindowSize(g_nWidth, g_nHeight);
     
-    // Set GLFW event callbacks. I removed glfwSetWindowSizeCallback for conciseness
-    glfwSetMouseButtonCallback(g_pWindow, (GLFWmousebuttonfun)TwEventMouseButtonGLFW); // - Directly redirect GLFW mouse button events to AntTweakBar
-    glfwSetCursorPosCallback(g_pWindow, (GLFWcursorposfun)TwEventMousePosGLFW);          // - Directly redirect GLFW mouse position events to AntTweakBar
-    glfwSetScrollCallback(g_pWindow, (GLFWscrollfun)TwEventMouseWheelGLFW);    // - Directly redirect GLFW mouse wheel events to AntTweakBar
-    glfwSetKeyCallback(g_pWindow, (GLFWkeyfun)TwEventKeyGLFW);                         // - Directly redirect GLFW key events to AntTweakBar
-    glfwSetCharCallback(g_pWindow, (GLFWcharfun)TwEventCharGLFW);                      // - Directly redirect GLFW char events to AntTweakBar
+//    Set GLFW event callbacks. I removed glfwSetWindowSizeCallback for conciseness
+    glfwSetMouseButtonCallback(g_pWindow, (GLFWmousebuttonfun)TwEventMouseButtonGLFW);
+    glfwSetCursorPosCallback(g_pWindow, (GLFWcursorposfun)TwEventMousePosGLFW);
+    glfwSetScrollCallback(g_pWindow, (GLFWscrollfun)TwEventMouseWheelGLFW);
+    glfwSetKeyCallback(g_pWindow, (GLFWkeyfun)TwEventKeyGLFW);
+    glfwSetCharCallback(g_pWindow, (GLFWcharfun)TwEventCharGLFW);
     glfwSetWindowSizeCallback(g_pWindow, WindowSizeCallBack);
     
     
-    // Ensure we can capture the escape key being pressed below
+//    Ensure we can capture the escape key being pressed below
     glfwSetInputMode(g_pWindow, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetCursorPos(g_pWindow, g_nWidth / 2, g_nHeight / 2);
     
-    // Dark blue background
+//    Dark blue background
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     
-    // Enable depth test
+//    Enable depth test
     glEnable(GL_DEPTH_TEST);
-    // Accept fragment if it closer to the camera than the former one
+//    Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
     
-    // Cull triangles which normal is not towards the camera
+//    Cull triangles which normal is not towards the camera
     glEnable(GL_CULL_FACE);
     
     
-    //    ****************************
-    //    define variables and objects
-    //    ****************************
+//    ****************************
+//    define variables and objects
+//    ****************************
     char* vertex = (char*) "../shaders/toonShader.vertexshader";
     char* fragment = (char*) "../shaders/toonShader.fragmentshader";
+    
     char* tiro = (char*) "../mesh/tiro.bmp";
-    char* planeta = (char*) "../mesh/pelo.bmp";
-    char* nave = (char*) "../mesh/monolito.bmp";
+    char* pelo = (char*) "../mesh/pelo.bmp";
+    char* monolito = (char*) "../mesh/monolito.bmp";
     
     char* suzane = (char*) "../mesh/suzanne.obj";
-//    char* planet = (char*) "../mesh/planeta.obj";
     char* cube = (char*) "../mesh/cube.obj";
     
-    Model ship(vertex, fragment, nave);
-    Model enemy(vertex, fragment, planeta);
+    Model ship(vertex, fragment, monolito);
+    Model enemy(vertex, fragment, pelo);
     Model guns(vertex, fragment, tiro);
     
     Mesh shipMesh;
@@ -149,14 +147,14 @@ int main(void) {
     guns.SetLight();
     
     
-    //    For speed computation
+//    For speed computation
     double lastTime = glfwGetTime();
     double frameTime = lastTime;
     
     
-    //    ******************
-    //    Start Variables
-    //    ******************
+//    ******************
+//    Start Variables
+//    ******************
     int i = 0;
     int time = 10;
     int nEnemy = 2;
@@ -175,39 +173,39 @@ int main(void) {
     float finishEnemy = 0.0;
     float movShip = 0.0;
     
-    //    Start Model Matrix Enemys
+//    Start Model Matrix Enemys
     std::vector<glm::mat4> ModelMatrixEnemys;
     ModelMatrixEnemys.resize(nEnemy);
     
-    //    conflict flag enemys
+//    conflict flag enemys
     std::vector<int> flagConflict;
     flagConflict.resize(nEnemy);
     
-    //    postion index enemy's control
+//    postion index enemy's control
     std::vector<int> positionIndex;
     positionIndex.resize(nEnemy);
     
-    //    postion flag enemy's control
+//    postion flag enemy's control
     std::vector<int> positionFlagEnemy;
     positionFlagEnemy.resize(nPositionEnemy);
     
-    //    postion's enemys
+//    postion's enemys
     std::vector<float> positonEnemy;
     positonEnemy.resize(10);
     
-    //    positon's guns
+//    positon's guns
     std::vector<float> positonGuns;
     positonGuns.resize(nGuns);
     
-    //    move guns
+//    move guns
     std::vector<float> moveGuns;
     moveGuns.resize(nGuns);
     
-    //    move enemy
+//    move enemy
     std::vector<float> movEnemy;
     movEnemy.resize(nEnemy);
     
-    //    set the enemy positons
+//    set the enemy positons
     for (i=0; i<nPositionEnemy; ++i) {
         positionFlagEnemy[i] = 0;
         if (i==0) {
@@ -217,7 +215,7 @@ int main(void) {
         }
     }
     
-    //    set enemy move position
+//    set enemy move position
     for (i=0; i<nEnemy; ++i) {
         positionIndex[i] = i;
         movEnemy[i] = startEnemy;
@@ -229,8 +227,6 @@ int main(void) {
     do{
         check_gl_error();
         
-        
-        //        use the control key to free the mouse
         if (glfwGetKey(g_pWindow, GLFW_KEY_LEFT_CONTROL) != GLFW_PRESS)
             nUseMouse = 0;
         else
@@ -238,6 +234,7 @@ int main(void) {
         
         if (glfwGetKey(g_pWindow, GLFW_KEY_ENTER) == GLFW_PRESS){
             flagShip = 0;
+            lastTime = glfwGetTime();
         }
 
         
@@ -254,9 +251,10 @@ int main(void) {
             double currentTime = glfwGetTime();
             float dT = 5*(currentTime-frameTime);
             frameTime = currentTime;
-            //        ********************************
-            //        control of move enemys with time
-            //        ********************************
+
+//          ********************************
+//          control of move enemys with time
+//          ********************************
             double moveTime = currentTime-lastTime;
             if( moveTime >= time ){
                 
@@ -283,16 +281,11 @@ int main(void) {
             }
             
             
-            //		Clear the screen
-//            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            
-            
             ship.ShaderModel();
             enemy.ShaderModel();
             guns.ShaderModel();
             
             
-            //		Compute the MVP matrix from keyboard and mouse input
             glm::mat4 MVP;
             glm::mat4 ProjectionMatrix;
             glm::mat4 ViewMatrix;
@@ -300,7 +293,6 @@ int main(void) {
             computeMatricesFromInputs(nUseMouse, g_nWidth, g_nHeight);
             
             
-            //        O P e V do Pvm ficam na main agora;.
             ProjectionMatrix = getProjectionMatrix();
             ViewMatrix = getViewMatrix();
             
@@ -347,18 +339,12 @@ int main(void) {
             ship.SetModelMatrix(scale(ship.GetModelMatrix(), vec3(0.7,1,0.2)));
             MVP = ProjectionMatrix * ViewMatrix * ship.GetModelMatrix();
             
-            
-            //        Send our transformation to the currently bound shader,
-            //        in the "MVP" uniform
-            //        ship.SetDraw(MVP, ViewMatrix);
-            
             ship.Light();
             
-            //        Bind our texture in Texture Unit 0
             ship.TextureM();
             
             
-            shipMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
+            shipMesh.SetBuffer();
             
             if (flagShip==0) {
                 ship.SetDraw(MVP, ViewMatrix);
@@ -392,11 +378,10 @@ int main(void) {
             
             enemy.Light();
             
-            // Bind our texture in Texture Unit 0
             enemy.TextureM();
             
             
-            enemyMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
+            enemyMesh.SetBuffer();
             
             
             if (flagConflict[0]==0) {
@@ -448,8 +433,6 @@ int main(void) {
                     positionFlagEnemy[positionIndex[i]]=0;
                 }
                 
-                //            Send our transformation to the currently bound shader,
-                //            in the "MVP" uniform
                 
                 if (flagConflict[i]==0) {
                     
@@ -471,9 +454,9 @@ int main(void) {
                 
             }
             
-            //        ##########################
-            //        Guns position
-            //        ##########################
+//        ##########################
+//        Guns position
+//        ##########################
             
             guns.SetPvm();
             
@@ -503,11 +486,9 @@ int main(void) {
                 
                 guns.Light();
                 
-                
-                //        Bind our texture in Texture Unit 0
                 guns.TextureM();
                 
-                gunsMesh.SetBuffer(); //chamar apenas quando trocase o buffer (obj)
+                gunsMesh.SetBuffer();
                 
                 if(moveGuns[1]<=28){
                     guns.SetDraw(MVP, ViewMatrix);
@@ -540,10 +521,6 @@ int main(void) {
                         }
                         
                         MVP = ProjectionMatrix * ViewMatrix * guns.GetModelMatrix();
-                    
-                        
-                        //        Send our transformation to the currently bound shader,
-                        //        in the "MVP" uniform
                         
                         guns.SetDraw(MVP, ViewMatrix);
                         guns.DrawModel(gunsMesh.GetIndices());
@@ -566,16 +543,16 @@ int main(void) {
         } else if(flagShip==10) {
             char text[50];
             sprintf(text,"Move Ship:" );
-            printText2D(text, 150, 400, 18);
+            printText2D(text, 160, 400, 18);
 
-            sprintf(text,"Key Right and Key Left" );
-            printText2D(text, 90, 370, 14);
+            sprintf(text,"Key Left and Key Right" );
+            printText2D(text, 100, 370, 14);
             
             sprintf(text,"Shot:" );
-            printText2D(text, 500, 400, 18);
+            printText2D(text, 510, 400, 18);
             
             sprintf(text,"Key Space" );
-            printText2D(text, 480, 370, 14);
+            printText2D(text, 490, 370, 14);
             
             sprintf(text,"Start Game:" );
             printText2D(text, 300, 200, 18);
@@ -596,16 +573,13 @@ int main(void) {
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(2);
         
-        // Swap buffers
         glfwSwapBuffers(g_pWindow);
         glfwPollEvents();
         
-    } // Check if the ESC key was pressed or the window was closed
+    }
     while (glfwGetKey(g_pWindow, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
            glfwWindowShouldClose(g_pWindow) == 0);
     
-    // Cleanup VBO and shader
-    //movido para mesh.CleanVbo
     shipMesh.CleanVbo();
     enemyMesh.CleanVbo();
     gunsMesh.CleanVbo();
@@ -616,7 +590,6 @@ int main(void) {
     
     cleanupText2D();
     
-    // Terminate AntTweakBar and GLFW
     glfwTerminate();
     
     return 0;
