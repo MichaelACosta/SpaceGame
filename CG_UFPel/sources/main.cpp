@@ -157,6 +157,7 @@ int main(void) {
 //    ******************
     int i = 0;
     int time = 10;
+    int level = 10;
     int nEnemy = 2;
     int nPositionEnemy = 8;
     int nGuns = 1000;
@@ -532,13 +533,16 @@ int main(void) {
             
             char text[25];
             sprintf(text,"Points: %d", points );
-            printText2D(text, 80, 570, 15);
+            printText2D(text, 50, 570, 15);
             
             sprintf(text,"Enemys: %d", pointsEnemy );
-            printText2D(text, 330, 570, 15);
+            printText2D(text, 240, 570, 15);
             
             sprintf(text,"Lives: %d", live );
-            printText2D(text, 580, 570, 15);
+            printText2D(text, 440, 570, 15);
+            
+            sprintf(text,"Level: %d", level-time+1 );
+            printText2D(text, 620, 570, 15);
             
         } else if(flagShip==10) {
             char text[50];
