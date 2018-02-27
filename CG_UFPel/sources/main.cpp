@@ -234,7 +234,7 @@ int main(void) {
             nUseMouse = 1;
         
         if (glfwGetKey(g_pWindow, GLFW_KEY_ENTER) == GLFW_PRESS){
-            flagShip = 0;
+            flagShip = 3;
             lastTime = glfwGetTime();
         }
 
@@ -532,16 +532,16 @@ int main(void) {
             }
             
             char text[25];
-            sprintf(text,"Points: %d", points );
+            sprintf(text,"Level: %d", level-time+1 );
             printText2D(text, 50, 570, 15);
             
+            sprintf(text,"Points: %d", points );
+            printText2D(text, 230, 570, 15);
+            
             sprintf(text,"Enemys: %d", pointsEnemy );
-            printText2D(text, 240, 570, 15);
+            printText2D(text, 430, 570, 15);
             
             sprintf(text,"Lives: %d", live );
-            printText2D(text, 440, 570, 15);
-            
-            sprintf(text,"Level: %d", level-time+1 );
             printText2D(text, 620, 570, 15);
             
         } else if(flagShip==10) {
@@ -567,7 +567,29 @@ int main(void) {
             char text[25];
             sprintf(text,"Game Over!" );
             printText2D(text, 175, 300, 50);
-        }else {
+            
+            sprintf(text,"Play Again:" );
+            printText2D(text, 300, 200, 18);
+            
+            sprintf(text,"Press Enter" );
+            printText2D(text, 320, 170, 14);
+        } else if (flagShip==3){
+            pointsEnemy = 0;
+            pointsTmp = 0;
+            nEnemy = 2;
+            ModelMatrixEnemys.resize(nEnemy);
+            movEnemy.resize(nEnemy);
+            positionIndex.resize(nEnemy);
+            flagConflict.resize(nEnemy);
+            for (i=0; i<nEnemy; ++i) {
+                movEnemy[i] = startEnemy;
+                positionIndex[i] = i;
+                positionFlagEnemy[i] = 0;
+                flagConflict[i]=0;
+            }
+            time = 10;
+            flagShip=0;
+        } else {
             char text[25];
             sprintf(text,"You Win!" );
             printText2D(text, 175, 300, 50);
