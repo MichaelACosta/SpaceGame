@@ -239,11 +239,13 @@ int main(void) {
         }
 
         
-        if ((time-1)<=1 && nEnemy==nPositionEnemy){
-            if (pointsEnemy>=points) {
-                flagShip=1;
-            } else {
-                flagShip=2;
+        if(flagShip!=3){
+            if ((time-1)<=1 && nEnemy==nPositionEnemy){
+                if (pointsEnemy>=points) {
+                    flagShip=1;
+                } else {
+                    flagShip=2;
+                }
             }
         }
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -574,6 +576,9 @@ int main(void) {
             sprintf(text,"Press Enter" );
             printText2D(text, 320, 170, 14);
         } else if (flagShip==3){
+            contGuns=0;
+            live=3;
+            points=0;
             pointsEnemy = 0;
             pointsTmp = 0;
             nEnemy = 2;
@@ -587,12 +592,19 @@ int main(void) {
                 positionFlagEnemy[i] = 0;
                 flagConflict[i]=0;
             }
+            lastTime = glfwGetTime();
             time = 10;
             flagShip=0;
         } else {
             char text[25];
             sprintf(text,"You Win!" );
-            printText2D(text, 175, 300, 50);
+            printText2D(text, 200, 300, 50);
+            
+            sprintf(text,"Play Again:" );
+            printText2D(text, 300, 200, 18);
+            
+            sprintf(text,"Press Enter" );
+            printText2D(text, 320, 170, 14);
         }
         
         glDisableVertexAttribArray(0);
